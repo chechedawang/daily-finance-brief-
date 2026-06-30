@@ -1,0 +1,15 @@
+# Render.com 部署配置
+# 使用方式：将项目上传到 GitHub，然后在 Render 中连接仓库即可自动部署
+# 文档：https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: daily-finance-brief
+    runtime: python
+    region: singapore  # 新加坡节点（国内访问较快）
+    plan: free         # 免费计划
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 30
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
