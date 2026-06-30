@@ -130,7 +130,7 @@ TZ_BEIJING = timezone(timedelta(hours=8))
 # ============================================================
 # 工具函数
 # ============================================================
-def safe_fetch(url: str, timeout: int = 8, **kwargs) -> str | None:
+def safe_fetch(url: str, timeout: int = 6, **kwargs) -> str | None:
     """HTTP GET，带超时和异常处理，返回文本"""
     try:
         resp = requests.get(url, headers=HEADERS, timeout=timeout, **kwargs)
@@ -214,7 +214,7 @@ def fetch_wallstreetcn(source: dict) -> list:
         "?channel=global&limit=20&first_page=true"
     )
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=10)
+        resp = requests.get(url, headers=HEADERS, timeout=8)
         resp.raise_for_status()
         data = resp.json()
         items = data.get("data", {}).get("items", [])

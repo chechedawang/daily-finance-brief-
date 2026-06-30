@@ -9,7 +9,7 @@ services:
     region: singapore  # 新加坡节点（国内访问较快）
     plan: free         # 免费计划
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 30
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --preload
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0
