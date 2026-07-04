@@ -22,6 +22,7 @@ import feedparser
 from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
+VERSION = "415de45-debug"  # 用来确认 Render 上跑的是哪个版本的代码
 
 # ============================================================
 # 新闻源配置
@@ -329,16 +330,16 @@ def index():
 @app.route("/api/news")
 def get_news():
     """聚合新闻 API（带缓存）"""
-    global _cache
-    now = time.time()
-
-    if _cache["data"] is not None and (now - _cache["timestamp"]) < CACHE_SECONDS:
-        return jsonify(_cache["data"])
-
-    all_articles = []
-    sources_status = []
-
     try:
+        global _cache
+        now = time.time()
+
+        if _cache["data"] is not None and (now - _cache["timestamp"]) < CACHE_SECONDS:
+            return jsonify(_cache["data"])
+
+        all_articles = []
+        sources_status = []
+
         # 并发抓取所有源，20 秒硬上限（Render 反代层 30s 超时，留 10s 余量）
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             future_to_src = {executor.submit(fetch_one_source, src): src for src in SOURCES}
@@ -366,26 +367,30 @@ def get_news():
         # 按时间排序
         all_articles.sort(key=lambda a: a.get("time", ""), reverse=True)
 
+        data = {
+            "date": datetime.now(TZ_BEIJING).strftime("%Y年%m月%d日 %A"),
+            "total": len(all_articles),
+            "sources": sources_status,
+            "articles": all_articles,
+            "cached_at": datetime.now(TZ_BEIJING).strftime("%H:%M:%S"),
+        }
+
+        _cache["data"] = data
+        _cache["timestamp"] = now
+        return jsonify(data)
+
     except Exception as e:
         import traceback
-        return jsonify({
+        import json as _json
+        err_data = _json.dumps({
             "error": str(e),
-            "traceback": traceback.format_exc(),
-            "sources_done": len(sources_status),
-            "articles_fetched": len(all_articles),
-        }), 500
-
-    data = {
-        "date": datetime.now(TZ_BEIJING).strftime("%Y年%m月%d日 %A"),
-        "total": len(all_articles),
-        "sources": sources_status,
-        "articles": all_articles,
-        "cached_at": datetime.now(TZ_BEIJING).strftime("%H:%M:%S"),
-    }
-
-    _cache["data"] = data
-    _cache["timestamp"] = now
-    return jsonify(data)
+            "type": type(e).__name__,
+            "traceback": traceback.format_exc().split("\n")[-6:],
+            "sources_done": len(sources_status) if 'sources_status' in dir() else 0,
+        }, ensure_ascii=False)
+        return app.response_class(
+            response=err_data, status=500, mimetype="application/json"
+        )
 
 
 @app.route("/api/refresh")
@@ -395,6 +400,18 @@ def refresh_news():
     _cache["data"] = None
     _cache["timestamp"] = 0
     return get_news()
+
+
+@app.route("/api/version")
+def api_version():
+    """版本检查：确认 Render 上跑的是哪个版本"""
+    return jsonify({"version": VERSION, "sources": len(SOURCES)})
+
+
+@app.route("/api/health")
+def api_health():
+    """健康检查：确认服务正常运行"""
+    return jsonify({"status": "ok"})
 
 
 # ============================================================
