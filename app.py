@@ -22,7 +22,7 @@ import feedparser
 from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
-VERSION = "v3-test"  # 用来确认 Render 上跑的是哪个版本的代码
+VERSION = "1.0.0"
 
 # ============================================================
 # 新闻源配置
@@ -334,11 +334,6 @@ def get_news():
         global _cache
         now = time.time()
 
-        # 测试模式：跳过抓取，验证函数是否能正常返回
-        from flask import request
-        if request.args.get("test") == "1":
-            return jsonify({"test": "ok", "version": VERSION, "time": now})
-
         if _cache["data"] is not None and (now - _cache["timestamp"]) < CACHE_SECONDS:
             return jsonify(_cache["data"])
 
@@ -401,8 +396,8 @@ def get_news():
             "sources_done": len(sources_status) if 'sources_status' in dir() else 0,
         }, ensure_ascii=False)
         return app.response_class(
-            response=err_data, status=200, mimetype="application/json"
-        )  # 临时用200，验证代理层是否拦截500响应体
+            response=err_data, status=500, mimetype="application/json"
+        )
 
 
 @app.route("/api/refresh")
