@@ -346,8 +346,12 @@ def get_news():
         sources_status = []
 
         # 并发抓取所有源，20 秒硬上限（Render 反代层 30s 超时，留 10s 余量）
-        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-            future_to_src = {executor.submit(fetch_one_source, src): src for src in SOURCES}
+        # 注意：不能用 with，因为 shutdown(wait=True) 会无视 timeout 阻塞等待所有 future
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=10)
+        future_to_src = {}
+        try:
+            for src in SOURCES:
+                future_to_src[executor.submit(fetch_one_source, src)] = src
             done, not_done = concurrent.futures.wait(
                 future_to_src, timeout=20,
                 return_when=concurrent.futures.ALL_COMPLETED,
@@ -360,14 +364,17 @@ def get_news():
                     "error": result["error"],
                 })
                 all_articles.extend(result["articles"])
-            # 超时未完成的源，标记为超时
+            # 超时未完成的源，取消并标记
             for future in not_done:
+                future.cancel()
                 src_name = future_to_src[future]["name"]
                 sources_status.append({
                     "name": src_name,
                     "count": 0,
                     "error": "请求超时（>20s）",
                 })
+        finally:
+            executor.shutdown(wait=False)  # 关键：不等待未完成的线程
 
         # 按时间排序
         all_articles.sort(key=lambda a: a.get("time", ""), reverse=True)
