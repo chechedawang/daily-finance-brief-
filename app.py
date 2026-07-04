@@ -338,32 +338,42 @@ def get_news():
     all_articles = []
     sources_status = []
 
-    # 并发抓取所有源，20 秒硬上限（Render 反代层 30s 超时，留 10s 余量）
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-        future_to_src = {executor.submit(fetch_one_source, src): src for src in SOURCES}
-        done, not_done = concurrent.futures.wait(
-            future_to_src, timeout=20,
-            return_when=concurrent.futures.ALL_COMPLETED,
-        )
-        for future in done:
-            result = future.result()
-            sources_status.append({
-                "name": result["name"],
-                "count": result["count"],
-                "error": result["error"],
-            })
-            all_articles.extend(result["articles"])
-        # 超时未完成的源，标记为超时
-        for future in not_done:
-            src_name = future_to_src[future]["name"]
-            sources_status.append({
-                "name": src_name,
-                "count": 0,
-                "error": "请求超时（>20s）",
-            })
+    try:
+        # 并发抓取所有源，20 秒硬上限（Render 反代层 30s 超时，留 10s 余量）
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+            future_to_src = {executor.submit(fetch_one_source, src): src for src in SOURCES}
+            done, not_done = concurrent.futures.wait(
+                future_to_src, timeout=20,
+                return_when=concurrent.futures.ALL_COMPLETED,
+            )
+            for future in done:
+                result = future.result()
+                sources_status.append({
+                    "name": result["name"],
+                    "count": result["count"],
+                    "error": result["error"],
+                })
+                all_articles.extend(result["articles"])
+            # 超时未完成的源，标记为超时
+            for future in not_done:
+                src_name = future_to_src[future]["name"]
+                sources_status.append({
+                    "name": src_name,
+                    "count": 0,
+                    "error": "请求超时（>20s）",
+                })
 
-    # 按时间排序
-    all_articles.sort(key=lambda a: a.get("time", ""), reverse=True)
+        # 按时间排序
+        all_articles.sort(key=lambda a: a.get("time", ""), reverse=True)
+
+    except Exception as e:
+        import traceback
+        return jsonify({
+            "error": str(e),
+            "traceback": traceback.format_exc(),
+            "sources_done": len(sources_status),
+            "articles_fetched": len(all_articles),
+        }), 500
 
     data = {
         "date": datetime.now(TZ_BEIJING).strftime("%Y年%m月%d日 %A"),
