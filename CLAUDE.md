@@ -2,11 +2,12 @@
 
 ## 项目概述
 
-面向 A 股科技投资者的每日财经新闻聚合器，移动端优先的 Web 应用。从 9 个新闻源（RSS + API）抓取内容，统一展示。
+面向 A 股科技投资者的每日财经新闻聚合器，移动端优先的 Web 应用。从 9 个新闻源（RSS + API）抓取内容，经去重 + 打分筛选后展示 Top 20 热点。
 
 - **部署地址**：https://daily-finance-brief.onrender.com
 - **GitHub**：`chechedawang/daily-finance-brief-`（SSH: `git@github.com:chechedawang/daily-finance-brief-.git`）
 - **用户**：A 股投资者，关注科技板块，中英文新闻混读
+- **刷新策略**：每天中午 12:00 自动刷新（外部 cron 触发），手动刷新按钮保留作兜底
 
 ## 工作规则
 
@@ -22,50 +23,100 @@
 | RSS 解析 | feedparser |
 | HTTP 请求 | requests（`(connect, read)` 超时元组） |
 | 并发 | `concurrent.futures.ThreadPoolExecutor` |
+| 去重 | 标题 2-gram 余弦相似度聚类 |
+| 打分 | 多维度代理信号（跨源覆盖、新鲜度、来源权威、内容丰富度、关键词） |
 | 部署 | Render.com 免费层（新加坡节点），Cloudflare CDN |
 | 版本管理 | Git + SSH Key 认证 |
 
 ## 项目结构
 
 ```
-├── app.py              # Flask 后端，新闻源配置 + 抓取逻辑 + API 路由
+├── app.py                  # Flask 路由胶水层（薄薄一层）
+├── config.py               # 全局配置：SOURCES、打分权重、时间窗口等
+├── cache.py                 # 内存缓存（带批次日期标记）
+│
+├── fetchers/               # 抓取层 —— 只负责「拿数据」
+│   ├── __init__.py          #   注册表：API_FETCHERS + fetch_one_source 统一入口
+│   ├── base.py              #   基类：safe_fetch, make_article 等公共工具
+│   ├── rss.py               #   feedparser 统一抓取 RSS
+│   └── wallstreetcn.py      #   华尔街见闻 API 源专用逻辑
+│
+├── services/               # 业务层 —— 「怎么处理数据」
+│   ├── __init__.py
+│   ├── orchestrator.py      #   并发调度（ThreadPoolExecutor）
+│   ├── dedup.py             #   去重（标题相似度聚类）
+│   └── ranker.py            #   打分排序（跨源覆盖 + 新鲜度 + 权重 + 关键词）
+│
 ├── templates/
-│   └── index.html      # 单页前端（CSS/JS 内嵌）
-├── render.yaml         # Render 部署配置
-├── requirements.txt    # Python 依赖
+│   └── index.html           # 前端 HTML
+│
+├── static/                  # 前端静态资源
+│   ├── style.css
+│   └── app.js
+│
+├── render.yaml              # Render 部署配置
+├── requirements.txt         # Python 依赖
 └── .gitignore
 ```
 
 ## 核心架构
 
-### 新闻源配置（`SOURCES` 列表）
+### 数据流
+
+```
+cron 12:00 ping /api/refresh
+        ↓
+fetchers/ 并发抓取 9 个源（RSS + API）
+        ↓
+services/dedup.py 标题相似度去重
+        ↓
+services/ranker.py 多维度打分 → Top 20
+        ↓
+cache.py 写入内存缓存
+        ↓
+前端请求 /api/news → 直接返回缓存
+```
+
+### 新闻源配置（`config.py` → `SOURCES`）
 
 每个源是一个字典，两类：
 
 - **RSS 源**：`type: "rss"`，需 `url` 字段，用 feedparser 解析
-- **API 源**：`type: "api"`，需 `api_type` 字段，需在 `API_FETCHERS` 中注册抓取函数
+- **API 源**：`type: "api"`，需 `api_type` 字段，需在 `fetchers/__init__.py` 的 `API_FETCHERS` 中注册
 
 ```python
 # 新增 RSS 源示例
 {"name": "来源名", "type": "rss", "url": "https://...",
- "category": "分类", "lang": "zh", "color": "#10b981"}
+ "category": "分类", "lang": "zh", "color": "#10b981", "weight": 0.7}
 
 # 新增 API 源示例
 {"name": "来源名", "type": "api", "api_type": "my_api",
- "category": "分类", "lang": "zh", "color": "#dc2626"}
+ "category": "分类", "lang": "zh", "color": "#dc2626", "weight": 0.9}
 ```
+
+### 打分体系
+
+5 个代理信号（RSS 源没有真实点击量）：
+
+| 信号 | 权重 | 说明 |
+|---|---|---|
+| 跨源覆盖度 | 3.0 × N | 同一事件被多家报道，每多一家 +3 分 |
+| 时间新鲜度 | 2.0 | 越接近当前时间得分越高，24h 窗口线性衰减 |
+| 来源权威度 | 0.5 | 头部媒体权重更高（weight 字段控制） |
+| 内容充实度 | 0.5 | 标题长度适中 + 有摘要加分 |
+| 关键词密度 | 0.3 × N | 命中公司名/股票代码/政策词，每个 +0.3 分 |
 
 ### 缓存策略
 
-10 分钟内存缓存（`_cache` 字典），`/api/refresh` 可强制刷新。
+内存缓存 + 批次日期标记。`/api/refresh` 先清缓存再重新抓取。每天 12:00 外部 cron 触发 `/api/refresh`。
 
 ### API 端点
 
 | 路由 | 说明 |
 |---|---|
 | `/` | 首页 |
-| `/api/news` | 聚合新闻 JSON |
-| `/api/refresh` | 清除缓存并重新抓取 |
+| `/api/news` | 聚合新闻 JSON（经过去重+打分+Top20） |
+| `/api/refresh` | 清除缓存并重新抓取（cron 触发 + 手动刷新按钮） |
 | `/api/version` | 版本检查 |
 | `/api/health` | 健康检查 |
 

@@ -1,0 +1,29 @@
+# 每日中午 12:00（北京时间）自动刷新快报数据
+# GitHub Actions 的 cron 基于 UTC，12:00 CST = 04:00 UTC
+name: 每日快报刷新
+
+on:
+  schedule:
+    - cron: "0 4 * * *"    # 每天 UTC 04:00 = 北京时间 12:00
+  workflow_dispatch:        # 支持手动触发
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 触发 Render 服务刷新
+        run: |
+          echo "⏰ 北京时间 $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S') — 正在触发刷新..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://daily-finance-brief.onrender.com/api/refresh)
+          if [ "$RESPONSE" -eq 200 ]; then
+            echo "✅ 刷新成功 (HTTP $RESPONSE)"
+          else
+            echo "❌ 刷新失败 (HTTP $RESPONSE)"
+            exit 1
+          fi
+
+      - name: 等待 Render 冷启动 & 抓取完成
+        run: |
+          echo "⏳ 等待 30 秒让 Render 完成冷启动和抓取..."
+          sleep 30
+          curl -s -o /dev/null -w "二次确认 HTTP %{http_code}\n" https://daily-finance-brief.onrender.com/api/news
