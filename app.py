@@ -130,10 +130,11 @@ TZ_BEIJING = timezone(timedelta(hours=8))
 # ============================================================
 # 工具函数
 # ============================================================
-def safe_fetch(url: str, timeout: int = 6, **kwargs) -> str | None:
-    """HTTP GET，带超时和异常处理，返回文本"""
+def safe_fetch(url: str, timeout=5, **kwargs) -> str | None:
+    """HTTP GET，带超时和异常处理，返回文本。
+    timeout 使用 (connect, read) 元组，避免 DNS/连接 长时间卡住。"""
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=timeout, **kwargs)
+        resp = requests.get(url, headers=HEADERS, timeout=(3, timeout), **kwargs)
         resp.raise_for_status()
         resp.encoding = resp.apparent_encoding or "utf-8"
         return resp.text
@@ -214,7 +215,7 @@ def fetch_wallstreetcn(source: dict) -> list:
         "?channel=global&limit=20&first_page=true"
     )
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=8)
+        resp = requests.get(url, headers=HEADERS, timeout=(3, 5))
         resp.raise_for_status()
         data = resp.json()
         items = data.get("data", {}).get("items", [])
@@ -337,10 +338,14 @@ def get_news():
     all_articles = []
     sources_status = []
 
-    # 并发抓取所有源
+    # 并发抓取所有源，20 秒硬上限（Render 反代层 30s 超时，留 10s 余量）
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-        futures = {executor.submit(fetch_one_source, src): src for src in SOURCES}
-        for future in concurrent.futures.as_completed(futures):
+        future_to_src = {executor.submit(fetch_one_source, src): src for src in SOURCES}
+        done, not_done = concurrent.futures.wait(
+            future_to_src, timeout=20,
+            return_when=concurrent.futures.ALL_COMPLETED,
+        )
+        for future in done:
             result = future.result()
             sources_status.append({
                 "name": result["name"],
@@ -348,6 +353,14 @@ def get_news():
                 "error": result["error"],
             })
             all_articles.extend(result["articles"])
+        # 超时未完成的源，标记为超时
+        for future in not_done:
+            src_name = future_to_src[future]["name"]
+            sources_status.append({
+                "name": src_name,
+                "count": 0,
+                "error": "请求超时（>20s）",
+            })
 
     # 按时间排序
     all_articles.sort(key=lambda a: a.get("time", ""), reverse=True)
