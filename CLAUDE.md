@@ -88,7 +88,21 @@ finally: executor.shutdown(wait=False)
 正常时 `7/9` 来源可用、产出 20 条。前端状态栏会如实显示失败源。
 换源时优先验证能否稳定拿到条目，别只看 HTTP 200（36氪 就是 200 但内容是 HTML）。
 
-### 5. 中文 RSS 选型
+### 5. Render 静态站点：Build Command 必须留空 ⚠️
+Render 会按**主分支**的语言自动猜构建命令（Python 项目 → `pip install -r requirements.txt`），
+但实际部署的是 `gh-pages` 分支，里面只有 `index.html` / `static/` / `data/`，**没有 requirements.txt**，
+于是报 `ERROR: Could not open requirements file`，部署失败。
+
+**修复**：Settings → Build Command **清空**（若不允许留空，填 `echo "prebuilt by CI"`）。
+
+成功的日志应该很短，没有 `Installing Python` / `Poetry` 之类的步骤：
+```
+==> Checking out commit xxx in branch gh-pages
+==> Empty build command; skipping build
+```
+约 6 秒完成。**新建同类站点时第一件事就是检查这个字段有没有被自动填上。**
+
+### 6. 中文 RSS 选型
 可用：量子位、爱范儿（偶发超时）、少数派、TechCrunch、CNBC Tech、The Verge。
 不可用（反爬/无RSS）：虎嗅、极客公园、品玩、华尔街见闻RSS、东方财富、证券时报、36氪、动点科技。
 
