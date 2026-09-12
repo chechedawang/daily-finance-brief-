@@ -2,8 +2,9 @@
 
 面向 A 股科技投资者的每日财经新闻聚合器，移动端优先。从 9 个新闻源（RSS + API）抓取，经去重+打分后展示 Top 20。每天 12:00 由 GitHub Actions 自动构建并发布。
 
-- 部署：Render Static Site（静态托管，无休眠）| GitHub：`chechedawang/daily-finance-brief-`
-- 站点产物在 `gh-pages` 分支，主分支只放源码
+- 线上地址：**https://daily-finance-brief-v3.onrender.com**
+- 托管：Render Static Site（静态托管，无休眠、无冷启动）
+- 仓库：`chechedawang/daily-finance-brief-`，站点产物在 `gh-pages` 分支，主分支只放源码
 - 用户：A 股投资者，关注科技板块，中英文新闻混读
 
 ## 工作规则
@@ -18,22 +19,24 @@ Python 3.12 | feedparser | requests (connect,read 超时元组) | ThreadPoolExec
 ## 项目结构
 
 ```
-build.py            — 构建入口：抓取 → 生成 dist/（唯一入口）
-config.py           — SOURCES、打分权重、时间窗口
+build.py             — 构建入口：抓取 → 生成 dist/（唯一入口）
+config.py            — SOURCES、打分权重、时间窗口
 services/
-  pipeline.py       — 完整流水线，唯一数据生产入口（无副作用）
-  orchestrator.py   — 并发调度
-  dedup.py          — 去重
-  ranker.py         — 打分排序
-  time_filter.py    — 时间窗口过滤
+  pipeline.py        — 完整流水线，唯一数据生产入口（无副作用）
+  orchestrator.py    — 并发调度
+  dedup.py           — 去重
+  ranker.py          — 打分排序
+  time_filter.py     — 时间窗口过滤
 fetchers/
-  __init__.py       — 注册表：api_type → 抓取函数
-  base.py           — 公共工具（safe_fetch / make_article 等）
-  rss.py            — RSS 抓取
-  wallstreetcn.py   — 华尔街见闻 API
+  __init__.py        — 注册表：api_type → 抓取函数
+  base.py            — 公共工具（safe_fetch / make_article 等）
+  rss.py             — RSS 抓取
+  wallstreetcn.py    — 华尔街见闻 API
 templates/index.html — 页面模板（含数据占位符）
 static/{style.css,app.js} — 前端资源
-dist/               — 构建产物（已 gitignore）
+dist/                — 构建产物（已 gitignore）
+render.yaml          — Render 部署配置
+.github/workflows/daily-refresh.yml — 定时构建 + 发布 gh-pages
 ```
 
 ## 核心架构
@@ -64,12 +67,14 @@ GitHub Actions (cron 12:00)
 ## 关键踩坑
 
 ### 1. 抓取失败必须抛异常 ⚠️
+
 `fetch_rss` / `fetch_wallstreetcn` **失败时要 raise**，不能静默 `return []`。
 静默返回会让 `fetch_one_source` 把 `error` 记成 `None`，导致：空数据保护失效、前端显示"9/9 来源正常"却在骗人。
-（此坑已修：2026-09-12）
 
 ### 2. ThreadPoolExecutor 陷阱
+
 **禁止** `with ThreadPoolExecutor()`，`with` 退出时 `shutdown(wait=True)` 无视 timeout。手动管理：
+
 ```python
 executor = ThreadPoolExecutor(max_workers=10)
 try: ...
@@ -77,17 +82,12 @@ finally: executor.shutdown(wait=False)
 ```
 
 ### 3. 内联 JSON 要转义 `</`
+
 标题里若含 `</script>` 会提前闭合脚本标签。`build.py::_inline_script` 已把 `</` 转成 `<\/`。
 改模板时**不要删掉 `<!--__NEWS_DATA__-->` 占位符**，否则构建报错。
 
-### 4. 部分新闻源偶发不稳定（正常现象）
-动点科技（403）、爱范儿（超时）、CNBC Tech（超时）、量子位（DNS）都会时不时失败。
-**这是网络波动，不是源坏了**——重跑一次通常就恢复，不用管。
+### 4. Render 静态站点：Build Command 必须留空 ⚠️
 
-正常产出 20 条，`7/9` 或 `8/9` 来源可用。前端状态栏会如实显示失败源。
-只要有效文章 ≥ 5 条，空数据保护就会放行。
-
-### 5. Render 静态站点：Build Command 必须留空 ⚠️
 Render 会按**主分支**的语言自动猜构建命令（Python 项目 → `pip install -r requirements.txt`），
 但实际部署的是 `gh-pages` 分支，里面只有 `index.html` / `static/` / `data/`，**没有 requirements.txt**，
 于是报 `ERROR: Could not open requirements file`，部署失败。
@@ -95,23 +95,34 @@ Render 会按**主分支**的语言自动猜构建命令（Python 项目 → `pi
 **修复**：Settings → Build Command **清空**（若不允许留空，填 `echo "prebuilt by CI"`）。
 
 成功的日志应该很短，没有 `Installing Python` / `Poetry` 之类的步骤：
+
 ```
 ==> Checking out commit xxx in branch gh-pages
 ==> Empty build command; skipping build
 ```
+
 约 6 秒完成。**新建同类站点时第一件事就是检查这个字段有没有被自动填上。**
 
-### 6. 新闻源选型（2026-09-12 实测）
+### 5. onrender.com 网址创建后无法修改 ⚠️
 
-**当前 9 个源**：钛媒体、量子位、爱范儿、动点科技、少数派、TechCrunch、CNBC Tech、The Verge、华尔街见闻。
-**已移除**：36氪（RSS 返回反爬 HTML 页，2026-09 由钛媒体顶替）。
+服务名随时可改（Settings → Name），但 `.onrender.com` 子域名在**创建服务的那一刻就固定了**，改名不会跟着变。
+
+当前面板里服务名是 `daily-finance-brief`，网址却仍是 `daily-finance-brief-v3.onrender.com`，两者不一致是正常现象。
+
+想换网址只有两条路：**加自定义域名**，或**删掉服务重建**（重建时名字填什么网址就是什么；若名字被占用，Render 会自动加随机后缀，反而更糟）。
+
+**不要为了"改网址"去动 Settings → Name，那是白费功夫。**
+
+### 6. 新闻源（当前 9 个）
+
+钛媒体、量子位、爱范儿、动点科技、少数派、TechCrunch、CNBC Tech、The Verge、华尔街见闻。
 
 **备选源实测结果**——判定标准是「能通过时间窗口的条数」，不是 HTTP 200：
 
 | 源 | 窗口内条数 | 点评 |
 |---|---|---|
 | Solidot | 15 | 时间分布最好，但偏科普，不适合财经 |
-| **钛媒体** | **9** | **✅ 已采用**，科技+财经，最贴近 36氪 的定位 |
+| **钛媒体** | **9** | **✅ 当前已采用**，科技+财经 |
 | InfoQ中文 | 9 | 偏开发技术 |
 | 开源中国 | 7 | 偏开发技术 |
 | IT之家 | 0 | ⚠️ 见下方陷阱 |
@@ -130,7 +141,16 @@ Render 会按**主分支**的语言自动猜构建命令（Python 项目 → `pi
    仅覆盖约 1 小时，全部落在「[昨天12:00, 今天12:00]」窗口之外，一条都用不上。
    若将来要引入高产源（IT之家、界面新闻这类），需先调大 `config.py` 里的这个值。
 
-### 6. Windows 控制台编码
+### 7. 部分新闻源偶发不稳定（正常现象）
+
+动点科技（403）、爱范儿（超时）、CNBC Tech（超时）、量子位（DNS）都会时不时失败。
+**这是网络波动，不是源坏了**——重跑一次通常就恢复，不用管。
+
+正常产出 20 条，来源可用数在 `7/9` ~ `9/9` 之间浮动。前端状态栏会如实显示失败源。
+只要有效文章 ≥ 5 条，空数据保护就会放行。
+
+### 8. Windows 控制台编码
+
 `build.py` 已用 `sys.stdout.reconfigure(encoding="utf-8", errors="replace")` 处理。
 自己写临时脚本打印中文/符号时也要加，否则 GBK 报 `UnicodeEncodeError`。
 
@@ -152,18 +172,18 @@ python build.py --serve        # 抓取 → 生成 dist/ → http://localhost:80
 
 调试模板改动的快速循环：`python build.py --no-fetch --serve`（秒级，不抓取）。
 
-### 首次部署到 Render（一次性配置）
+### Render 面板配置（一次性）
 
-1. 先在 GitHub Actions 页面手动跑一次工作流，生成 `gh-pages` 分支
-2. Render 面板 → **New → Static Site** → 连接仓库
-3. **Branch** 选 `gh-pages`
-4. **Build Command** 留空（产物已由 CI 构建好）
-5. **Publish Directory** 填 `.`
-6. 确认自动部署（Auto-Deploy）已开启
+1. **New → Static Site** → 连接仓库 `chechedawang/daily-finance-brief-`
+2. **Branch** 选 `gh-pages`
+3. **Build Command** 留空（产物已由 CI 构建好）⚠️ 见踩坑 4
+4. **Publish Directory** 填 `.`
+5. 确认自动部署（Auto-Deploy）已开启
 
-之后每天 12:00 自动更新。Git 部署走 SSH Key 认证，push 无需密码。
+之后每天 12:00 自动更新。CI 用 `GITHUB_TOKEN` + `x-access-token` 形式 push，无需额外配置密钥。
 
-### 与 V2（Render 动态服务）的区别
+### 手动兜底
 
-V2 是常驻 Flask 服务，免费层 15 分钟无请求就休眠、冷启动约 60 秒，首访很慢。
-V3 改为构建静态产物 + CDN 托管，**无休眠、无冷启动**；代价是失去「网页上点按钮实时刷新」的能力，手动兜底改为在 GitHub Actions 页面点 *Run workflow*。
+GitHub 仓库 → **Actions** → 左侧「每日快报刷新」→ **Run workflow**。
+
+静态站点没有后端，页面上无法提供"点击刷新"能力，手动更新只能走这里。
