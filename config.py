@@ -20,13 +20,13 @@ VERSION = "3.0.0"   # V3：静态站点架构（build.py 生成，CDN 托管）
 SOURCES = [
     # ========== RSS 源（科技产业） ==========
     {
-        "name": "36氪",
+        "name": "钛媒体",
         "type": "rss",
-        "url": "https://36kr.com/feed",
+        "url": "https://www.tmtpost.com/feed",
         "category": "科技产业",
         "lang": "zh",
         "color": "#10b981",
-        "weight": 0.8,          # 来源权威度权重（0~1）
+        "weight": 0.75,         # 来源权威度权重（0~1）
     },
     {
         "name": "量子位",
