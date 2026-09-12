@@ -1,15 +1,24 @@
-# Render.com 部署配置 (V2)
-# 使用方式：将项目上传到 GitHub，然后在 Render 中连接仓库即可自动部署
+# Render.com 部署配置 (V3 — 静态站点)
+# ============================================================
+# 形态：静态托管，无休眠、无冷启动，由 CDN 直出。
+#
+# 架构：GitHub Actions 每天 12:00 抓取新闻并生成静态站点，
+#       推送到 gh-pages 分支；Render 监听该分支自动发布。
+#       Render 侧只负责托管文件，不再运行任何 Python 进程。
+#
+# 使用方式（Render 面板）：
+#   New → Static Site → 连接本仓库 → Branch 选 gh-pages
+#   Build Command 留空（产物已由 CI 构建好）
+#   Publish Directory 填 .
+#
+# 注意：若面板与下方配置有出入，以面板为准 —— 静态站创建后 runtime 不可更改。
 # 文档：https://render.com/docs/blueprint-spec
 
 services:
   - type: web
     name: daily-finance-brief
-    runtime: python
-    region: singapore  # 新加坡节点（国内访问较快）
-    plan: free         # 免费计划
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120 --preload
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.12.0
+    runtime: static
+    branch: gh-pages
+    # buildCommand 留空：文件已由 GitHub Actions 构建完成，无需二次构建
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: false

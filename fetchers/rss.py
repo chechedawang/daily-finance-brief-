@@ -11,17 +11,22 @@ from .base import safe_fetch, clean_html, parse_rss_date, make_article
 
 
 def fetch_rss(source: dict) -> list:
-    """抓取单个 RSS 源，返回文章列表"""
+    """
+    抓取单个 RSS 源，返回文章列表。
+
+    失败时抛异常而非静默返回空列表 —— 由 fetch_one_source 捕获并记录，
+    这样上层才能区分「这个源挂了」和「这个源今天没新闻」。
+    """
     articles = []
     url = source["url"]
     content = safe_fetch(url)
 
     if content is None:
-        return articles
+        raise RuntimeError("抓取失败（网络错误或非 200 响应）")
 
     feed = feedparser.parse(content)
     if feed.bozo and not feed.entries:
-        return articles
+        raise RuntimeError("RSS 解析失败或订阅源为空")
 
     for entry in feed.entries[:RSS_ENTRY_LIMIT]:
         title = (entry.get("title") or "").strip()

@@ -5,8 +5,8 @@ __pycache__/
 .venv/
 venv/
 
-# Flask
-instance/
+# 构建产物（由 build.py 生成，不入主分支）
+dist/
 
 # IDE
 .vscode/

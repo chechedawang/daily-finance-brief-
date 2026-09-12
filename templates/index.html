@@ -9,8 +9,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>每日财经快报</title>
 
-    <!-- 外部样式表 -->
-    <link rel="stylesheet" href="/static/style.css">
+    <!-- 内联 SVG 图标（📰），避免额外的 favicon 请求 -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OwPC90ZXh0Pjwvc3ZnPg==">
+
+    <!-- 相对路径：站点可部署在任意子路径下 -->
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
 
@@ -21,26 +24,23 @@
                 <div class="header-title">
                     <span class="icon">📰</span>每日财经快报
                 </div>
-                <div class="header-date" id="headerDate">加载中...</div>
+                <div class="header-date" id="headerDate"></div>
             </div>
-            <button class="refresh-btn" id="refreshBtn" onclick="loadNews(true)" title="刷新">
-                ↻
-            </button>
         </div>
     </header>
 
     <!-- ======== 主内容区 ======== -->
     <main class="main">
 
-        <!-- 状态栏 -->
-        <div class="stats-bar" id="statsBar" style="display:none;">
+        <!-- 状态栏（数据就绪后由 JS 显示） -->
+        <div class="stats-bar" id="statsBar" hidden>
             <span>📊 共 <span class="count" id="newsCount">0</span> 条新闻</span>
             <span class="stats-dot" id="statsDot"></span>
             <span id="statsText" style="font-size:12px;"></span>
         </div>
 
-        <!-- 搜索 + 筛选 -->
-        <div class="toolbar" id="toolbar" style="display:none;">
+        <!-- 搜索 + 筛选（数据就绪后由 JS 显示） -->
+        <div class="toolbar" id="toolbar" hidden>
             <div class="search-box">
                 <span class="search-icon">🔍</span>
                 <input type="search" id="searchInput" placeholder="搜索标题、来源、内容…" oninput="renderNews()">
@@ -51,37 +51,18 @@
         </div>
 
         <!-- 新闻列表容器 -->
-        <div class="news-list" id="newsList">
-            <!-- 初始加载中 → 骨架屏 -->
-            <div class="skeleton-card">
-                <div class="skeleton-line short"></div>
-                <div class="skeleton-line long"></div>
-                <div class="skeleton-line medium"></div>
-            </div>
-            <div class="skeleton-card">
-                <div class="skeleton-line short"></div>
-                <div class="skeleton-line long"></div>
-                <div class="skeleton-line medium"></div>
-            </div>
-            <div class="skeleton-card">
-                <div class="skeleton-line short"></div>
-                <div class="skeleton-line long"></div>
-                <div class="skeleton-line medium"></div>
-            </div>
-            <div class="skeleton-card">
-                <div class="skeleton-line short"></div>
-                <div class="skeleton-line long"></div>
-                <div class="skeleton-line medium"></div>
-            </div>
-        </div>
+        <div class="news-list" id="newsList"></div>
 
         <!-- 底部 -->
         <div class="footer">
-            每日财经快报 · 数据来自公开 RSS 源 · <span id="cacheTime"></span>
+            每日财经快报 · 数据来自公开 RSS 源 · 每日 12:00 自动更新<br>
+            <span id="updatedAt"></span>
         </div>
     </main>
 
-    <!-- 外部脚本 -->
-    <script src="/static/app.js"></script>
+    <!-- 构建时由 build.py 在此注入新闻数据（window.__NEWS_DATA__） -->
+    <!--__NEWS_DATA__-->
+
+    <script src="static/app.js"></script>
 </body>
 </html>

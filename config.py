@@ -6,7 +6,7 @@
 
 from datetime import timezone, timedelta
 
-VERSION = "2.0.0"
+VERSION = "3.0.0"   # V3：静态站点架构（build.py 生成，CDN 托管）
 
 # ============================================================
 # 新闻源配置
