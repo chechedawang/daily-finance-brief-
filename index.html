@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端视口：让网页在手机上以合适的宽度显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- iOS Safari 全屏模式支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>每日财经快报</title>
+
+    <!-- 内联 SVG 图标（📰），避免额外的 favicon 请求 -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OwPC90ZXh0Pjwvc3ZnPg==">
+
+    <!-- 相对路径：站点可部署在任意子路径下 -->
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <!-- ======== 顶部导航栏 ======== -->
+    <header class="header">
+        <div class="header-inner">
+            <div>
+                <div class="header-title">
+                    <span class="icon">📰</span>每日财经快报
+                </div>
+                <div class="header-date" id="headerDate"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======== 主内容区 ======== -->
+    <main class="main">
+
+        <!-- 状态栏（数据就绪后由 JS 显示） -->
+        <div class="stats-bar" id="statsBar" hidden>
+            <span>📊 共 <span class="count" id="newsCount">0</span> 条新闻</span>
+            <span class="stats-dot" id="statsDot"></span>
+            <span id="statsText" style="font-size:12px;"></span>
+        </div>
+
+        <!-- 搜索 + 筛选（数据就绪后由 JS 显示） -->
+        <div class="toolbar" id="toolbar" hidden>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="search" id="searchInput" placeholder="搜索标题、来源、内容…" oninput="renderNews()">
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <!-- JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 新闻列表容器 -->
+        <div class="news-list" id="newsList"></div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            每日财经快报 · 数据来自公开 RSS 源 · 每日 12:00 自动更新<br>
+            <span id="updatedAt"></span>
+        </div>
+    </main>
+
+    <!-- 构建时由 build.py 在此注入新闻数据（window.__NEWS_DATA__） -->
+    <script>window.__NEWS_DATA__={"version":"3.0.0","date":"2026年09月15日 Tuesday","total":20,"sources":[{"name":"TechCrunch","count":15,"error":null},{"name":"华尔街见闻","count":20,"error":null},{"name":"爱范儿","count":15,"error":null},{"name":"钛媒体","count":15,"error":null},{"name":"动点科技","count":15,"error":null},{"name":"量子位","count":10,"error":null},{"name":"CNBC Tech","count":15,"error":null},{"name":"The Verge","count":10,"error":null},{"name":"少数派","count":10,"error":null}],"articles":[{"title":"早报｜iOS27正式推送/比亚迪高管：燃油车在中国没有未来/iPhone 18 Pro渠道降价900元，苹果称不干预","link":"https://www.ifanr.com/1680097?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"· 广汽一汽签署重组意向协议，一汽拟成第二大股东 · 中国地震台网中心：正与苹果沟通 iOS 地震预警 · 马斯克旗下公司撤回对苹果的反垄断诉讼，继续起诉 OpenAI#欢迎关注爱范儿官方微信公众号：…","time":"2026-09-15 08:08","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"分子之心QuantaMind登Science Advances，让AI给分子世界”拍电影”","link":"https://www.qbitai.com/2026/09/489023.html","summary":"AI 蛋白质设计迈入“动态时代”","time":"2026-09-14 16:17","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"端侧AI从「能跑」到「会进化」，元空智能跑进惠普预装","link":"https://www.qbitai.com/2026/09/488933.html","summary":"让模型和设备共同进化","time":"2026-09-14 16:08","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"Excel AI 辅助工作流横评：数据分析高手还是照葫芦画瓢？","link":"https://sspai.com/prime/story/ai-assisted-spreadsheeting-a-survey","summary":"用具体的测试数据和盲评结果，聊聊当下 AI 辅助制作 Excel 的真实水平，以及我使用 AI 辅助制作 Excel 的心得。查看全文本文为会员文章，出自《单篇文章》，订阅后可阅读全文。","time":"2026-09-14 16:35","source":"少数派","category":"数字生活","lang":"zh","color":"#06b6d4"},{"title":"新豆包手机助手首发体验，智能手机正在变成「行动终端」","link":"https://www.ifanr.com/1679983?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"真正的 AI 手机，应该是「行动终端」#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-09-14 14:00","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"Is Big Tech’s AI slowdown a safety pact or a cartel?","link":"https://www.theverge.com/ai-artificial-intelligence/995186/is-big-techs-ai-slowdown-a-safety-pact-or-a-cartel","summary":"When OpenAI CEO Sam Altman, Anthropic CEO Dario Amodei, Google DeepMind cofounder Demis Hassabis, an…","time":"2026-09-15 06:59","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"Eagle Cloud closes nearly RMB 100 million Series B+ to expand AI agent security governance infrastructure","link":"https://technode.com/2026/09/14/eagle-cloud-closes-nearly-rmb-100-million-series-b-to-expand-ai-agent-security-governance-infrastructure/","summary":"Eagle Cloud has closed a Series B+ funding round of nearly RMB 100 million (about $14 million), four…","time":"2026-09-14 14:21","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"7名博士生仅用3个月从零训练7B大模型：代码+数据+训练日志全公开","link":"https://www.qbitai.com/2026/09/489227.html","summary":"几百个Agent参与研发，AI开始造AI","time":"2026-09-15 10:17","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"Baidu to rename Baijiahao app as Baidu Live Companion on Sept. 22","link":"https://technode.com/2026/09/14/baidu-to-rename-baijiahao-app-as-baidu-live-companion-on-sept-22/","summary":"Baidu will rename its Baijiahao app as Baidu Live Companion on Sept. 22, shifting the app’s focus to…","time":"2026-09-14 14:17","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"WeChat tests AI processing tools for image editing and information extraction","link":"https://technode.com/2026/09/14/wechat-tests-ai-processing-tools-for-image-editing-and-information-extraction/","summary":"WeChat is testing an “AI processing” option in its image-sending interface. The feature can enhance …","time":"2026-09-14 13:56","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"Z.ai completes around US$5 billion financing for next-generation GLM models","link":"https://technode.com/2026/09/14/z-ai-completes-around-us5-billion-financing-for-next-generation-glm-models/","summary":"Z.ai has announced the completion of a combined financing round worth around US$5 billion, including…","time":"2026-09-14 13:53","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"DeepSeek begins limited test of AI voice interaction with four voice profiles","link":"https://technode.com/2026/09/14/deepseek-begins-limited-test-of-ai-voice-interaction-with-four-voice-profiles/","summary":"DeepSeek has started a limited test of AI voice interaction. Some users now see a speaker button in …","time":"2026-09-14 13:46","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"报道：特朗普想与黄仁勋讨论AI","link":"https://wallstreetcn.com/livenews/3165056","summary":"在洛杉矶“All-In Summit”峰会的舞台上，英伟达CEO黄仁勋现场接听了美国总统特朗普的电话。通话期间，特朗普将人工智能（AI）带来的危险称为“骗局”。 特朗普批评了试图放缓AI发展步伐的呼声…","time":"2026-09-15 04:51","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"OpenAI buys smartphone camera maker Glass Imaging for $300 million, report says","link":"https://techcrunch.com/2026/09/14/openai-buys-smartphone-camera-maker-glass-imaging-for-300-million-report-says/","summary":"Glass Imaging was founded by a pair of former Apple engineers who previously led the team that devel…","time":"2026-09-15 04:44","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"新 iPhone 相机如何记录照片真实性？开发者视角的猜想和尝试","link":"https://sspai.com/post/114453","summary":"照片能证明它被拍过，但不能证明镜头前是真的。查看全文","time":"2026-09-14 15:16","source":"少数派","category":"数字生活","lang":"zh","color":"#06b6d4"},{"title":"Samsung backs Nvidia AI chip rival in $230 million funding round as GPU alternatives boom","link":"https://www.cnbc.com/2026/09/14/samsung-euclyd-ai-chip-funding.html","summary":"Dutch startup Euclyd raised the funding in a round co-led by Samsung, Somerset Capital Partners, the…","time":"2026-09-15 07:30","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Doubao Phone Assistant launches consumer version with beta phone controls","link":"https://technode.com/2026/09/14/doubao-phone-assistant-launches-consumer-version-with-beta-phone-controls/","summary":"ByteDance’s Doubao Phone Assistant has launched its consumer version, adding screen-based Q&#38;A, l…","time":"2026-09-14 14:15","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"Xiaomi SU7L test car reportedly spotted with rear-wheel steering and added radar","link":"https://technode.com/2026/09/14/xiaomi-su7l-test-car-reportedly-spotted-with-rear-wheel-steering-and-added-radar/","summary":"A suspected long-wheelbase Xiaomi SU7L test car has reportedly been spotted with rear-wheel steering…","time":"2026-09-14 14:14","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"Nvidia CEO Jensen Huang tells Trump ‘we’re not going to let [an AI slowdown] happen’","link":"https://techcrunch.com/2026/09/14/nvidia-ceo-jensen-huang-tells-trump-were-not-going-to-let-an-ai-slowdown-happen/","summary":"Though Elon Musk and Sam Altman have supported Dario Amodei's calls to slow the pace of AI developme…","time":"2026-09-15 05:51","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"AI infrastructure company Cornelis raises $205M to chip away at Nvidia’s dominance","link":"https://techcrunch.com/2026/09/14/ai-infrastructure-company-cornelis-raises-205m-to-chip-away-at-nvidias-dominance/","summary":"The company also announced a product called Active Compute Fabric, a network technology that targets…","time":"2026-09-15 04:07","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"}],"generated_at":"2026-09-15 17:03"};</script>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
