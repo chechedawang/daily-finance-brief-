@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端视口：让网页在手机上以合适的宽度显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- iOS Safari 全屏模式支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>每日财经快报</title>
+
+    <!-- 内联 SVG 图标（📰），避免额外的 favicon 请求 -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OwPC90ZXh0Pjwvc3ZnPg==">
+
+    <!-- 相对路径：站点可部署在任意子路径下 -->
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <!-- ======== 顶部导航栏 ======== -->
+    <header class="header">
+        <div class="header-inner">
+            <div>
+                <div class="header-title">
+                    <span class="icon">📰</span>每日财经快报
+                </div>
+                <div class="header-date" id="headerDate"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======== 主内容区 ======== -->
+    <main class="main">
+
+        <!-- 状态栏（数据就绪后由 JS 显示） -->
+        <div class="stats-bar" id="statsBar" hidden>
+            <span>📊 共 <span class="count" id="newsCount">0</span> 条新闻</span>
+            <span class="stats-dot" id="statsDot"></span>
+            <span id="statsText" style="font-size:12px;"></span>
+        </div>
+
+        <!-- 搜索 + 筛选（数据就绪后由 JS 显示） -->
+        <div class="toolbar" id="toolbar" hidden>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="search" id="searchInput" placeholder="搜索标题、来源、内容…" oninput="renderNews()">
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <!-- JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 新闻列表容器 -->
+        <div class="news-list" id="newsList"></div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            每日财经快报 · 数据来自公开 RSS 源 · 每日 12:00 自动更新<br>
+            <span id="updatedAt"></span>
+        </div>
+    </main>
+
+    <!-- 构建时由 build.py 在此注入新闻数据（window.__NEWS_DATA__） -->
+    <script>window.__NEWS_DATA__={"version":"3.0.0","date":"2026年09月19日 Saturday","total":20,"sources":[{"name":"CNBC Tech","count":15,"error":null},{"name":"爱范儿","count":15,"error":null},{"name":"钛媒体","count":15,"error":null},{"name":"量子位","count":10,"error":null},{"name":"华尔街见闻","count":20,"error":null},{"name":"少数派","count":10,"error":null},{"name":"The Verge","count":10,"error":null},{"name":"TechCrunch","count":15,"error":null},{"name":"动点科技","count":15,"error":null}],"articles":[{"title":"Anthropic selects Accenture as first embedded evaluator to help implement Amodei's slowdown proposal","link":"https://www.cnbc.com/2026/09/18/anthropic-accenture-ai-safety.html","summary":"Anthropic and OpenAI have been under intense scrutiny after researchers warned about the potential f…","time":"2026-09-19 05:37","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Disney’s first CTO is Character.AI’s former CEO","link":"https://www.theverge.com/entertainment/997555/karandeep-anand-disney-character-ai","summary":"You would think that a multimedia conglomerate as large as Disney would have a few chief technology …","time":"2026-09-19 02:27","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"Anthropic’s first embedded evaluator is … Accenture?","link":"https://techcrunch.com/2026/09/18/anthropics-first-embedded-evaluator-is-accenture/","summary":"Accenture is about to take on its most high-risk consulting engagement ever.","time":"2026-09-19 05:44","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"Disney’s first CTO led an AI startup it once accused of copying its characters","link":"https://techcrunch.com/2026/09/18/disneys-first-cto-led-an-ai-startup-it-once-accused-of-copying-its-characters/","summary":"The former CEO of Character.AI, which Disney previously sent a cease-and-desist letter to, will serv…","time":"2026-09-19 01:59","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"市场监管总局召开打击劣质低价专项行动推进会","link":"https://wallstreetcn.com/livenews/3167364","summary":"9月17日，市场监管总局召开打击劣质低价专项行动推进会，贯彻落实党中央、国务院关于综合整治“内卷式”竞争的决策部署，推动专项行动走深走实。会议强调，各级市场监管部门要切实提高政治站位，深刻认识打击劣质…","time":"2026-09-18 22:08","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"市场监管总局打击劣质低价专项行动 立案查处案件2.9万件","link":"https://wallstreetcn.com/livenews/3167358","summary":"记者今天了解到，自今年5月市场监管总局开展打击劣质低价专项行动以来，各级市场监管部门深入整治劣质低价突出问题，持续加大案件查办力度，不断完善制度规则体系，共立案查处价格、竞争、质量、认证认可等领域违法…","time":"2026-09-18 22:00","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"继OpenAI、Anthropic、Meta之后，谷歌也披露AI入侵事件","link":"https://wallstreetcn.com/livenews/3167504","summary":"谷歌公司人工智能（AI）模型Gemini在5月的一次网络安全测试中，意外入侵了三家公司的系统，成为又一起引发安全专家和技术开发者共同担忧的AI代理入侵事件。 9月18日，谷歌证实，这些入侵发生在AI安…","time":"2026-09-19 06:14","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"美联储重启加息：AI 企业融资难度急剧攀升","link":"https://www.tmtpost.com/8145311.html","summary":"所谓此一时彼一时，今天科技企业遇到的问题与先前基本是天壤之别。","time":"2026-09-19 10:18","source":"钛媒体","category":"科技产业","lang":"zh","color":"#10b981"},{"title":"AGI最难一战，竟在医院！中国AI登上Science，医生不怕失业还催着上线","link":"https://www.qbitai.com/2026/09/491875.html","summary":"用通用AI去啃最硬的骨头，这条路走得通","time":"2026-09-18 14:11","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"iPhone 18 Pro 系列正式开售，新 AI 功能「自相矛盾」","link":"https://www.ifanr.com/1680844?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"未来，摄像头要抢在任何算法介入之前，证明「以上像素来自我」#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-09-18 12:14","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"5 万亿美元的账面富贵：VC 也需要一份尽调","link":"https://www.tmtpost.com/8144989.html","summary":"三家未上市公司的估值，超过 45 年 3365 次科技 IPO 首日市值的总和；2021 年份的 VC 基金，账面写着 1.1x，现金只拿回 8 美分。账面富贵和真金白银之间，隔着一次公开报价。","time":"2026-09-19 09:57","source":"钛媒体","category":"科技产业","lang":"zh","color":"#10b981"},{"title":"Google's Gemini becomes latest AI model to break out and hack computer systems","link":"https://www.cnbc.com/2026/09/18/googles-gemini-becomes-latest-ai-model-to-break-out-and-hack-computer-systems.html","summary":"The disclosure comes as scrutiny over misbehaving artificial intelligence intensifies in Washington …","time":"2026-09-19 09:41","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"OpenAI's latest AI revelation is a 'serious situation,' Microsoft's Suleyman tells CNBC","link":"https://www.cnbc.com/2026/09/18/microsoft-ai-ceo-openais-latest-ai-revelation-a-serious-situation.html","summary":"Suleyman joined \"Squawk Box\" to discuss OpenAI's latest incidents of \"concerning model behavior\" dis…","time":"2026-09-19 05:35","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"黄仁勋：AI导致人类2030年灭亡的概率为\"0%\"","link":"https://wallstreetcn.com/livenews/3167521","summary":"英伟达CEO黄仁勋再次驳斥AI末日论，表示该技术不会对人类构成生存性威胁。“无论怎么描述，2030年都不会是世界末日，2030年世界末日的概率为0%。” 在近日的多场公开活动中，黄仁勋重申其立场，认为…","time":"2026-09-19 07:37","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"OpenAI and Microsoft knew they were starting a ‘doom loop’ for the web","link":"https://www.theverge.com/ai-artificial-intelligence/997633/openai-microsoft-chatgpt-ai-new-york-times-doom-loop-theft-google-zero","summary":"Recently unsealed court documents in the New York Times' case against OpenAI and Microsoft are prett…","time":"2026-09-19 05:07","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"早报｜iPhone 18 Pro昨天开卖：Pro Max加价，Pro破发/12306回应国庆票价上涨/宁德时代倪军：全固态电池至少还需5年","link":"https://www.ifanr.com/1680956?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"· 赛力斯回应问界专属专营：用户权益不变，将择机进军轿车和 MPV · 钉钉创始人陈航出任百望股份非执行董事，年薪 10 万元 · 联想市值盘中超过美团，股价刷新高#欢迎关注爱范儿官方微信公众号：爱范…","time":"2026-09-19 08:59","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"报道：OpenAI到2030年这段时间料将烧钱将近2800亿美元","link":"https://wallstreetcn.com/livenews/3167512","summary":"OpenAI到2030年这段时间料将烧钱2800亿美元——预计2026-30年累计自由现金流（FCF）将为-2780亿美元，预定收入料将为8400亿美元。预计2030年营收为3500亿美元（预计202…","time":"2026-09-19 06:35","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"Gemini 4 Pro疑似泄露，“AI减速”又成空话","link":"https://www.tmtpost.com/8145550.html","summary":"RSI正在逼近，三巨头谁也没停。","time":"2026-09-19 10:54","source":"钛媒体","category":"科技产业","lang":"zh","color":"#10b981"},{"title":"8月音乐精选：有限的生命里，要听得再任性一点！","link":"https://sspai.com/post/114555","summary":"编者注：2026年我们将重启少数派音乐推荐栏目FM3.14，特邀资深音乐从业者及爱好者为大家推荐优质的华语独立、流行音乐，今年我们也很荣幸邀请到老朋友飞傲，为本栏目冠名。飞傲目前拥有品牌以音乐发烧友为…","time":"2026-09-18 14:55","source":"少数派","category":"数字生活","lang":"zh","color":"#06b6d4"},{"title":"AI办公，自费上班打工人的第一笔“首付”","link":"https://www.tmtpost.com/8145186.html","summary":"谁能抢占下打工人的桌面。","time":"2026-09-19 10:00","source":"钛媒体","category":"科技产业","lang":"zh","color":"#10b981"}],"generated_at":"2026-09-19 16:22"};</script>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
