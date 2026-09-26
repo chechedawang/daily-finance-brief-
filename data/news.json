@@ -1,0 +1,255 @@
+{
+  "version": "3.0.0",
+  "date": "2026年09月26日 Saturday",
+  "total": 20,
+  "sources": [
+    {
+      "name": "少数派",
+      "count": 10,
+      "error": null
+    },
+    {
+      "name": "华尔街见闻",
+      "count": 20,
+      "error": null
+    },
+    {
+      "name": "爱范儿",
+      "count": 15,
+      "error": null
+    },
+    {
+      "name": "量子位",
+      "count": 10,
+      "error": null
+    },
+    {
+      "name": "TechCrunch",
+      "count": 15,
+      "error": null
+    },
+    {
+      "name": "The Verge",
+      "count": 10,
+      "error": null
+    },
+    {
+      "name": "CNBC Tech",
+      "count": 15,
+      "error": null
+    },
+    {
+      "name": "钛媒体",
+      "count": 15,
+      "error": null
+    },
+    {
+      "name": "动点科技",
+      "count": 15,
+      "error": null
+    }
+  ],
+  "articles": [
+    {
+      "title": "华为腾讯阿里都盯上的生意：不造机器人，却想控制所有机器人？",
+      "link": "https://www.tmtpost.com/8152798.html",
+      "summary": "华为腾讯阿里都盯上的生意：不造机器人，却想控制所有机器人？",
+      "time": "2026-09-26 08:19",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "华为大模型双子星联手创业，要找物理世界的Scaling Law",
+      "link": "https://www.qbitai.com/2026/09/497070.html",
+      "summary": "一场物理世界的基模实验",
+      "time": "2026-09-25 14:14",
+      "source": "量子位",
+      "category": "AI科技",
+      "lang": "zh",
+      "color": "#f59e0b"
+    },
+    {
+      "title": "光储龙头阳光电源筹建户储事业部，子公司海外户储电站业务被叫停",
+      "link": "https://wallstreetcn.com/livenews/3170707",
+      "summary": "据新浪财经，光储龙头阳光电源已筹建单独的户储事业部，阳光电源高级副总裁兼光储集团全球营销总裁吴家貌，担任该业务负责人。与此同时，为避免业务板块之间相互竞争，子公司阳光新能源的海外户储电站业务目前已暂停…",
+      "time": "2026-09-25 15:22",
+      "source": "华尔街见闻",
+      "category": "财经快讯",
+      "lang": "zh",
+      "color": "#dc2626"
+    },
+    {
+      "title": "呃…小扎「自研Manus」刚成Meta太子，就塌房了",
+      "link": "https://www.qbitai.com/2026/09/497060.html",
+      "summary": "人工外包团队",
+      "time": "2026-09-25 14:11",
+      "source": "量子位",
+      "category": "AI科技",
+      "lang": "zh",
+      "color": "#f59e0b"
+    },
+    {
+      "title": "OpenAI的模型访问了美国人口普查局和SEC的公开数据",
+      "link": "https://wallstreetcn.com/livenews/3170944",
+      "summary": "据彭博，OpenAI的模型访问了美国政府网站上的公开信息，包括美国人口普查局和美国证券交易委员会的网站。该公司的自主AI系统曾与SEC.gov、Investor.gov以及Census.gov上的公开…",
+      "time": "2026-09-26 08:33",
+      "source": "华尔街见闻",
+      "category": "财经快讯",
+      "lang": "zh",
+      "color": "#dc2626"
+    },
+    {
+      "title": "给机器人当老师，还能赚外快？“中国版Index”觅蜂派来了",
+      "link": "https://www.qbitai.com/2026/09/497012.html",
+      "summary": "",
+      "time": "2026-09-25 13:52",
+      "source": "量子位",
+      "category": "AI科技",
+      "lang": "zh",
+      "color": "#f59e0b"
+    },
+    {
+      "title": "别人忙着卷Code，Kimi抽身反打浏览器插件：网页操作一秒变Skill",
+      "link": "https://www.qbitai.com/2026/09/497075.html",
+      "summary": "Agent的手越伸越长",
+      "time": "2026-09-25 14:20",
+      "source": "量子位",
+      "category": "AI科技",
+      "lang": "zh",
+      "color": "#f59e0b"
+    },
+    {
+      "title": "Vertiv以及另外6只值得现在买入的AI工业类股票",
+      "link": "https://www.tmtpost.com/8152979.html",
+      "summary": "Vertiv 位居榜首。富国银行的斯蒂芬·图萨提出的其他推荐包括：开利全球、特灵、江森自控、多佛、伊顿以及艾默生电气。",
+      "time": "2026-09-26 10:42",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "At Meta Connect, the company’s smart glasses were everywhere",
+      "link": "https://techcrunch.com/2026/09/25/at-meta-connect-the-companys-smart-glasses-were-everywhere/",
+      "summary": "The company behind Facebook and Instagram wants to keep consumers connected to the digital world via…",
+      "time": "2026-09-26 09:08",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    },
+    {
+      "title": "京东，具身智能大玩家？",
+      "link": "https://www.tmtpost.com/8152876.html",
+      "summary": "不造机器人，押注机器人背后的生意。",
+      "time": "2026-09-26 08:38",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "Unsecured OpenAI agents posted 53 user images on the internet without the lab’s knowledge",
+      "link": "https://techcrunch.com/2026/09/25/unsecured-openai-agents-posted-53-user-images-on-the-internet-without-the-labs-knowledge/",
+      "summary": "AI agents operating in OpenAI's research environment posted user images on public image-hosting site…",
+      "time": "2026-09-26 06:20",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    },
+    {
+      "title": "Ahead of US IPO, British AI neocloud Nscale secures $3.36B in convertible financing",
+      "link": "https://techcrunch.com/2026/09/25/ahead-of-u-s-ipo-british-ai-neocloud-nscale-secures-3-36b-in-convertible-finacing/",
+      "summary": "The funding, which comes from Third Point, Nvidia, and others, will fuel the company's massive AI da…",
+      "time": "2026-09-26 02:33",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    },
+    {
+      "title": "阿里的蒸汽机时代",
+      "link": "https://www.tmtpost.com/8152987.html",
+      "summary": "从GMV到机器思考总量，吴泳铭给机器找了一个“马力”。",
+      "time": "2026-09-26 11:35",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "悬而未决的港股聆讯，与“非洲之王”传音的利润幻象",
+      "link": "https://www.tmtpost.com/8152889.html",
+      "summary": "在重新讲述自己的故事时，传音将自身定位从“卖手机”提升为“卖生态”。",
+      "time": "2026-09-26 08:38",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "小度想坐稳AI办公时代的牌座，李莹需要成为下一个景鲲",
+      "link": "https://www.tmtpost.com/8152829.html",
+      "summary": "小度想坐稳AI办公时代的牌座，李莹需要成为下一个景鲲",
+      "time": "2026-09-26 08:21",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "Meta’s AI Tamagotchi bet is…working?",
+      "link": "https://techcrunch.com/video/will-metas-ai-tamagotchi-bet-isworking/",
+      "summary": "When AI leaders at OpenAI and Anthropic started talking about “pacing the frontier,”&#160;maybe some…",
+      "time": "2026-09-26 00:00",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    },
+    {
+      "title": "Meta 已经想清楚 Muse 靠什么赚钱",
+      "link": "https://www.tmtpost.com/8152912.html",
+      "summary": "眼镜、钥匙扣、电脑、手机的入口，可能都是同一个智能体。",
+      "time": "2026-09-26 07:53",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "新思科技获评级上调，这位分析师认为该股还有69%的上涨空间",
+      "link": "https://www.tmtpost.com/8152984.html",
+      "summary": "在投资者日活动临近之际，分析师对新思科技（Synopsys）的看法愈发乐观。",
+      "time": "2026-09-26 10:44",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "阿克曼发文后，霍华德·休斯高管买入股票，该公司股价上涨",
+      "link": "https://www.tmtpost.com/8152977.html",
+      "summary": "根据美国证券交易委员会（SEC）的文件显示，霍华德·休斯公司的高管马克·格兰迪森和安德鲁·戴维斯于周三买入了公司股票。",
+      "time": "2026-09-26 10:42",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "Crusoe abandons $1.25B plan to use Boom turbines at AI data centers",
+      "link": "https://techcrunch.com/2026/09/25/crusoe-abandons-1-25b-plan-to-use-boom-turbines-at-ai-data-centers/",
+      "summary": "Boom Supersonic CEO Blake Scholl said the company's new stationary power plants were no longer in Cr…",
+      "time": "2026-09-26 07:11",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    }
+  ],
+  "generated_at": "2026-09-26 16:55"
+}
