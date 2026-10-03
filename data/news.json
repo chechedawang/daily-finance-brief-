@@ -1,0 +1,255 @@
+{
+  "version": "3.0.0",
+  "date": "2026年10月03日 Saturday",
+  "total": 20,
+  "sources": [
+    {
+      "name": "TechCrunch",
+      "count": 15,
+      "error": null
+    },
+    {
+      "name": "爱范儿",
+      "count": 15,
+      "error": null
+    },
+    {
+      "name": "CNBC Tech",
+      "count": 15,
+      "error": null
+    },
+    {
+      "name": "The Verge",
+      "count": 10,
+      "error": null
+    },
+    {
+      "name": "少数派",
+      "count": 10,
+      "error": null
+    },
+    {
+      "name": "量子位",
+      "count": 10,
+      "error": null
+    },
+    {
+      "name": "华尔街见闻",
+      "count": 20,
+      "error": null
+    },
+    {
+      "name": "动点科技",
+      "count": 15,
+      "error": null
+    },
+    {
+      "name": "钛媒体",
+      "count": 15,
+      "error": null
+    }
+  ],
+  "articles": [
+    {
+      "title": "Apple will limit Mac disk access as AI agents ‘substantially’ increase risk",
+      "link": "https://www.theverge.com/tech/1004295/apple-limit-mac-disk-access-ai-agents",
+      "summary": "Apple will add new limits for \"full disk access\" on Mac in response to risks posed by AI agents, as …",
+      "time": "2026-10-03 04:08",
+      "source": "The Verge",
+      "category": "科技产业",
+      "lang": "en",
+      "color": "#ec4899"
+    },
+    {
+      "title": "Apple says it’s tightening macOS ‘Full Disk Access’ controls due to new risks from AI agents",
+      "link": "https://techcrunch.com/2026/10/02/apple-says-its-tightening-macos-full-disk-access-controls-due-to-new-risks-from-ai-agents/",
+      "summary": "Apple says it will add new controls around macOS’s Full Disk Access permission, warning that increas…",
+      "time": "2026-10-03 02:11",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    },
+    {
+      "title": "TechCrunch Disrupt 2026: Blackstone’s Jas Khaira on building the next generation of AI giants",
+      "link": "https://techcrunch.com/2026/10/02/techcrunch-disrupt-2026-blackstones-jas-khaira-on-building-the-next-generation-of-ai-giants/",
+      "summary": "Blackstone's Jas Khaira will take the Builders Stage at TechCrunch Disrupt 2026 on building next-gen…",
+      "time": "2026-10-03 01:32",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    },
+    {
+      "title": "TechCrunch Disrupt 2026: Clay’s Kareem Amin on the rise of the GTM engineer",
+      "link": "https://techcrunch.com/2026/10/02/techcrunch-disrupt-2026-clays-kareem-amin-on-the-rise-of-the-gtm-engineer/",
+      "summary": "Clay Co-founder and CEO Kareem Amin joins the AI Stage to discuss the rise of GTM engineer at TechCr…",
+      "time": "2026-10-02 22:30",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    },
+    {
+      "title": "丘成桐新论文致谢了GPT和Claude",
+      "link": "https://www.qbitai.com/2026/10/499991.html",
+      "summary": "44年前被亲自列入问题清单",
+      "time": "2026-10-02 15:27",
+      "source": "量子位",
+      "category": "AI科技",
+      "lang": "zh",
+      "color": "#f59e0b"
+    },
+    {
+      "title": "AI is making cyberattacks faster and harder to detect, Interpol warns. Here’s what companies should watch",
+      "link": "https://www.cnbc.com/2026/10/02/interpol-cyberattack-cyberthreat-agentic-ai.html",
+      "summary": "An Interpol executive warns AI is making existing cyber threats faster and harder to detect, while c…",
+      "time": "2026-10-02 12:57",
+      "source": "CNBC Tech",
+      "category": "全球市场",
+      "lang": "en",
+      "color": "#6366f1"
+    },
+    {
+      "title": "AI杀不死咨询公司",
+      "link": "https://www.tmtpost.com/8158278.html",
+      "summary": "下一代咨询公司真正值钱的能力是什么？",
+      "time": "2026-10-02 16:50",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "万万没想到！中国科幻，122岁啦",
+      "link": "https://www.tmtpost.com/8158310.html",
+      "summary": "未来的人们或可将其称之为：中国科幻流浪计划。",
+      "time": "2026-10-02 17:10",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "本周看什么 | 最近值得一看的 8 部作品",
+      "link": "https://sspai.com/post/115211",
+      "summary": "📅本周新预告《泥面人》终极预告9月24日，DC新片《泥面人》发布了终极预告，将于10月23日在北美上映。詹姆斯·瓦特金斯执导，汤姆·里斯·哈里斯主演，隆重介绍哥谭市的新面孔，一位意外毁容的演员在注射了…",
+      "time": "2026-10-02 17:30",
+      "source": "少数派",
+      "category": "数字生活",
+      "lang": "zh",
+      "color": "#06b6d4"
+    },
+    {
+      "title": "arXiv最严新规！每人每月最多提交2篇，拒稿不退额度",
+      "link": "https://www.qbitai.com/2026/10/499958.html",
+      "summary": "换区也没用",
+      "time": "2026-10-02 14:46",
+      "source": "量子位",
+      "category": "AI科技",
+      "lang": "zh",
+      "color": "#f59e0b"
+    },
+    {
+      "title": "你的下一台「泡面盖」，何必是塑料的？",
+      "link": "https://www.ifanr.com/1682870?utm_source=rss&utm_medium=rss&utm_campaign=",
+      "summary": "铝合金 Kindle 来了！压泡面更稳#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。",
+      "time": "2026-10-02 14:10",
+      "source": "爱范儿",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#ef4444"
+    },
+    {
+      "title": "Bitget 'not expecting to recover a lot' from $388 million hack, CEO tells CNBC",
+      "link": "https://www.cnbc.com/2026/10/02/bitget-crypto-stolen-hack-recovery.html",
+      "summary": "Bitget has frozen a tiny fraction of the $387.5 million stolen in last week’s hack, and restored muc…",
+      "time": "2026-10-02 14:03",
+      "source": "CNBC Tech",
+      "category": "全球市场",
+      "lang": "en",
+      "color": "#6366f1"
+    },
+    {
+      "title": "和 Opus 5.5 同题交卷，MiniMax M3.1 让 Flash 开始超纲了",
+      "link": "https://www.ifanr.com/1682850?utm_source=rss&utm_medium=rss&utm_campaign=",
+      "summary": "从智能的高度，到使用的广度#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。",
+      "time": "2026-10-02 14:01",
+      "source": "爱范儿",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#ef4444"
+    },
+    {
+      "title": "9月车市冷热分化：大盘承压，头部车企继续走强",
+      "link": "https://www.tmtpost.com/8158147.html",
+      "summary": "9月车市未现全面回暖，头部车企却继续增长，市场竞争正加速从增量争夺转向存量重分配。",
+      "time": "2026-10-02 13:16",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "openJiuwen X-Router自演进模型路由技术首发，昇腾亲和，Agent越跑越省，实测减少50+%Token消耗",
+      "link": "https://www.qbitai.com/2026/10/500098.html",
+      "summary": "让每一次请求选对模型，让每一次反馈都成为下一次更优、更省的选择",
+      "time": "2026-10-02 15:34",
+      "source": "量子位",
+      "category": "AI科技",
+      "lang": "zh",
+      "color": "#f59e0b"
+    },
+    {
+      "title": "Muse狂飙，龙虾退潮",
+      "link": "https://www.tmtpost.com/8158280.html",
+      "summary": "别找了，没有中国版Muse",
+      "time": "2026-10-02 17:10",
+      "source": "钛媒体",
+      "category": "科技产业",
+      "lang": "zh",
+      "color": "#10b981"
+    },
+    {
+      "title": "Cerebras stock hits post-IPO low, tumbling 20% for the week on Nvidia pressure and lockup expiration",
+      "link": "https://www.cnbc.com/2026/10/02/cerebras-stock-hits-post-ipo-low-on-nvidia-pressure-lockup-expiration.html",
+      "summary": "Cerebras shares hit an all-time low due to pressure from chip giant Nvidia, plus a post-lockup sello…",
+      "time": "2026-10-03 06:38",
+      "source": "CNBC Tech",
+      "category": "全球市场",
+      "lang": "en",
+      "color": "#6366f1"
+    },
+    {
+      "title": "Meta wants your next gadget to be Muse-infused",
+      "link": "https://techcrunch.com/2026/10/02/meta-wants-you-to-build-your-own-muse-gadget/",
+      "summary": "Meta wants Muse in your TV and your toaster, so it's giving the code away for free.",
+      "time": "2026-10-03 08:45",
+      "source": "TechCrunch",
+      "category": "全球科技",
+      "lang": "en",
+      "color": "#3b82f6"
+    },
+    {
+      "title": "Meta open sources code to let you make Muse AI gadgets",
+      "link": "https://www.theverge.com/tech/1004330/meta-muse-ai-gadgets-home-link",
+      "summary": "Meta now lets you make your own Muse gadgets that feature the company's new AI agent with code that …",
+      "time": "2026-10-03 05:08",
+      "source": "The Verge",
+      "category": "科技产业",
+      "lang": "en",
+      "color": "#ec4899"
+    },
+    {
+      "title": "美媒：迪拜航空客机涉嫌刺伤机长的副驾驶承认意图“坠毁飞机”",
+      "link": "https://wallstreetcn.com/livenews/3173855",
+      "summary": "消息人士称，在迪拜航空公司客机驾驶舱冲突事件中涉嫌刺伤机长的副驾驶在调查中承认，他的意图是“在以色列坠毁该飞机”。（新华社）",
+      "time": "2026-10-03 10:57",
+      "source": "华尔街见闻",
+      "category": "财经快讯",
+      "lang": "zh",
+      "color": "#dc2626"
+    }
+  ],
+  "generated_at": "2026-10-03 17:30"
+}
