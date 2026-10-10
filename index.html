@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端视口：让网页在手机上以合适的宽度显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- iOS Safari 全屏模式支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>每日财经快报</title>
+
+    <!-- 内联 SVG 图标（📰），避免额外的 favicon 请求 -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OwPC90ZXh0Pjwvc3ZnPg==">
+
+    <!-- 相对路径：站点可部署在任意子路径下 -->
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <!-- ======== 顶部导航栏 ======== -->
+    <header class="header">
+        <div class="header-inner">
+            <div>
+                <div class="header-title">
+                    <span class="icon">📰</span>每日财经快报
+                </div>
+                <div class="header-date" id="headerDate"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======== 主内容区 ======== -->
+    <main class="main">
+
+        <!-- 状态栏（数据就绪后由 JS 显示） -->
+        <div class="stats-bar" id="statsBar" hidden>
+            <span>📊 共 <span class="count" id="newsCount">0</span> 条新闻</span>
+            <span class="stats-dot" id="statsDot"></span>
+            <span id="statsText" style="font-size:12px;"></span>
+        </div>
+
+        <!-- 搜索 + 筛选（数据就绪后由 JS 显示） -->
+        <div class="toolbar" id="toolbar" hidden>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="search" id="searchInput" placeholder="搜索标题、来源、内容…" oninput="renderNews()">
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <!-- JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 新闻列表容器 -->
+        <div class="news-list" id="newsList"></div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            每日财经快报 · 数据来自公开 RSS 源 · 每日 12:00 自动更新<br>
+            <span id="updatedAt"></span>
+        </div>
+    </main>
+
+    <!-- 构建时由 build.py 在此注入新闻数据（window.__NEWS_DATA__） -->
+    <script>window.__NEWS_DATA__={"version":"3.0.0","date":"2026年10月10日 Saturday","total":20,"sources":[{"name":"爱范儿","count":15,"error":null},{"name":"华尔街见闻","count":20,"error":null},{"name":"量子位","count":10,"error":null},{"name":"少数派","count":10,"error":null},{"name":"动点科技","count":15,"error":null},{"name":"CNBC Tech","count":15,"error":null},{"name":"钛媒体","count":15,"error":null},{"name":"TechCrunch","count":15,"error":null},{"name":"The Verge","count":10,"error":null}],"articles":[{"title":"'Real boss of India?': Elon Musk takes aim at Indian billionaire Ambani as Starlink launch stalls","link":"https://www.cnbc.com/2026/10/09/musk-starlink-ambani-india-us.html","summary":"Musk claimed Starlink was not being allowed to launch in India despite spending five years complying…","time":"2026-10-09 12:11","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Elon Musk intensifies attack on Ambani over Starlink India launch delay","link":"https://techcrunch.com/2026/10/09/elon-musk-intensifies-attack-on-ambani-over-starlink-india-launch-delay/","summary":"Elon Musk has accused Indian billionaire Mukesh Ambani of blocking competition.","time":"2026-10-10 11:10","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"Tesla drops 'Full Self-Driving' brand name in Europe after regulator pushback","link":"https://www.cnbc.com/2026/10/09/tesla-full-self-driving-europe-regulator.html","summary":"German regulators called Tesla's \"Full Self-Driving\" brand name \"somewhat misleading.\"","time":"2026-10-10 03:21","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Amazon and others are done keeping data center deals secret. Is it enough to build trust?","link":"https://techcrunch.com/video/amazon-and-others-are-done-keeping-data-center-deals-secret-is-it-enough-to-build-trust/","summary":"Amazon says it will&#160;stop using NDAs&#160;when negotiating data center deals with local governme…","time":"2026-10-10 00:56","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"Tesla renames ‘Full Self-Driving’ to ‘Tesla Assisted Driving’ in Europe","link":"https://techcrunch.com/2026/10/09/tesla-renames-full-self-driving-to-tesla-assisted-driving-in-europe/","summary":"The name change is enough for Germany's transport minister to start advocating for Europe-wide adopt…","time":"2026-10-10 00:07","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"Wall Street is pitching data centers as a major real estate bet. The risks are piling up","link":"https://www.cnbc.com/2026/10/09/ai-data-centers-investing.html","summary":"Wall Street firms are bringing AI data center investments to public markets as political, liquidity …","time":"2026-10-09 23:08","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"OpenAI defends decision to fire researchers: 'These decisions were not about raising safety concerns or speaking out'","link":"https://www.cnbc.com/2026/10/09/openai-fired-researchers-ai-concerns.html","summary":"OpenAI has defended its decision to fire three safety researchers for what the AI lab has described …","time":"2026-10-09 18:12","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"《柳叶刀》研究表明：AI 有望改善医患关系","link":"https://www.qbitai.com/2026/10/502359.html","summary":"Google 研究成果首次登上《柳叶刀》主刊","time":"2026-10-09 14:28","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"早报｜供应链回应iPhone 18 Pro砍单传闻/小米、华为手机同日调价/山姆拟限制亲友卡换绑","link":"https://www.ifanr.com/1683465?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"· 豆包据称在建设水电燃气缴费等生活服务能力 · IDC：第三季度全球 PC 出货量下降 20.1%，旺季未现 · 曾被字节辞退的田柯宇获近 3000 万美元融资，研发世界模型#欢迎关注爱范儿官方微信…","time":"2026-10-10 08:14","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"TRAE终于把Code和Work合并了","link":"https://www.qbitai.com/2026/10/502426.html","summary":"大写的方便","time":"2026-10-09 17:19","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"联想天禧自研代码智能体TianxiCode斩获SWE-bench-Live全球第一","link":"https://www.qbitai.com/2026/10/502422.html","summary":"联想天禧AI自主研发的专业代码智能体框架TianxiCode 以71%的问题解决率登顶全球第一名","time":"2026-10-09 16:53","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"0.2秒急停、秒级重规划！因果智能走进真实世界","link":"https://www.qbitai.com/2026/10/502411.html","summary":"这是一台机器人正在关闭微波炉门时，因人手突然插进来而紧急悬停的时间","time":"2026-10-09 16:47","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"苹果「果家」发布会定档！至少 6 个新品曝光，HomePad 还能挂墙上？","link":"https://www.ifanr.com/1683356?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"苹果全家桶的风，还是吹到了客厅。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-10-09 15:12","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"字节找到了DeepSeek时强时弱的原因","link":"https://www.qbitai.com/2026/10/502364.html","summary":"答不答得对，得看Token站位","time":"2026-10-09 15:11","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"硅谷大模型不装了：Claude卷价格，GPT学豆包","link":"https://www.tmtpost.com/8163462.html","summary":"10美分的Claude、0元的GPT，美国AI也搞起“百亿补贴”。","time":"2026-10-10 09:10","source":"钛媒体","category":"科技产业","lang":"zh","color":"#10b981"},{"title":"Tokenization could unleash tens of billions of dollars in trapped capital, Nasdaq CEO says","link":"https://www.cnbc.com/2026/10/09/nasdaq-ceo-tokenization-could-unleash-billions-in-trapped-capital-.html","summary":"Nasdaq CEO Adena Friedman said tokenization could free up tens of billions of dollars in trapped cap…","time":"2026-10-09 14:30","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"JD.com’s $2.5 billion Ceconomy takeover moves closer to EU approval","link":"https://technode.com/2026/10/09/jd-coms-2-5-billion-ceconomy-takeover-moves-closer-to-eu-approval/","summary":"JD.com’s proposed $2.5 billion takeover of German electronics retailer Ceconomy is expected to recei…","time":"2026-10-09 16:52","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"Ecosia switches from Mistral to open-weight AI models including Qwen, GLM and Kimi","link":"https://technode.com/2026/10/09/ecosia-switches-from-mistral-to-open-weight-ai-models-including-qwen-glm-and-kimi/","summary":"German search engine Ecosia is replacing Mistral with open-weight AI models, including Chinese-devel…","time":"2026-10-09 16:52","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"灵巧操作头号玩家：Sharpa把指尖「触觉」进化到全面「体感」","link":"https://www.qbitai.com/2026/10/502330.html","summary":"机器人摆脱展会、舞台Demo，产生真实商业价值，究竟需要哪些东西？","time":"2026-10-09 12:15","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"全球最大独立 AI 原生影视公司，要打造「AI 版 Disney」","link":"https://www.ifanr.com/1683309?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"这家公司要把 AI 长片送进 2027 年暑期档院线#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-10-09 12:00","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"}],"generated_at":"2026-10-10 18:13"};</script>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
