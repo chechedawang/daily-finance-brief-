@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端视口：让网页在手机上以合适的宽度显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- iOS Safari 全屏模式支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>每日财经快报</title>
+
+    <!-- 内联 SVG 图标（📰），避免额外的 favicon 请求 -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OwPC90ZXh0Pjwvc3ZnPg==">
+
+    <!-- 相对路径：站点可部署在任意子路径下 -->
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <!-- ======== 顶部导航栏 ======== -->
+    <header class="header">
+        <div class="header-inner">
+            <div>
+                <div class="header-title">
+                    <span class="icon">📰</span>每日财经快报
+                </div>
+                <div class="header-date" id="headerDate"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======== 主内容区 ======== -->
+    <main class="main">
+
+        <!-- 状态栏（数据就绪后由 JS 显示） -->
+        <div class="stats-bar" id="statsBar" hidden>
+            <span>📊 共 <span class="count" id="newsCount">0</span> 条新闻</span>
+            <span class="stats-dot" id="statsDot"></span>
+            <span id="statsText" style="font-size:12px;"></span>
+        </div>
+
+        <!-- 搜索 + 筛选（数据就绪后由 JS 显示） -->
+        <div class="toolbar" id="toolbar" hidden>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="search" id="searchInput" placeholder="搜索标题、来源、内容…" oninput="renderNews()">
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <!-- JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 新闻列表容器 -->
+        <div class="news-list" id="newsList"></div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            每日财经快报 · 数据来自公开 RSS 源 · 每日 12:00 自动更新<br>
+            <span id="updatedAt"></span>
+        </div>
+    </main>
+
+    <!-- 构建时由 build.py 在此注入新闻数据（window.__NEWS_DATA__） -->
+    <script>window.__NEWS_DATA__={"version":"3.0.0","date":"2026年10月24日 Saturday","total":20,"sources":[{"name":"CNBC Tech","count":15,"error":null},{"name":"钛媒体","count":15,"error":null},{"name":"爱范儿","count":15,"error":null},{"name":"动点科技","count":15,"error":null},{"name":"量子位","count":10,"error":null},{"name":"华尔街见闻","count":20,"error":null},{"name":"TechCrunch","count":15,"error":null},{"name":"The Verge","count":10,"error":null},{"name":"少数派","count":10,"error":null}],"articles":[{"title":"平安银行：前三季度归母净利润391.86亿元，同比增长2.2%","link":"https://wallstreetcn.com/livenews/3184726","summary":"平安银行公告，2026年前三季度营业收入1031亿元，同比增长2.4%；归母净利润391.86亿元，同比增长2.2%；扣非净利润391.24亿元，同比增长2.2%。第三季度单季营业收入324.83亿元…","time":"2026-10-23 18:55","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"歌尔股份：前三季度归母净利润26.19亿元，同比增长1.21%","link":"https://wallstreetcn.com/livenews/3184687","summary":"歌尔股份公告，2026年前三季度营业收入682.2亿元，同比增0.17%；归母净利润26.19亿元，同比增1.21%；扣非净利润21.12亿元，同比增2.20%。第三季度单季营业收入281.74亿元，…","time":"2026-10-23 18:46","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"亿纬锂能：2026年第三季度归母净利润19.39亿元，同比增长60.18%","link":"https://wallstreetcn.com/livenews/3184717","summary":"亿纬锂能公告，2026年第三季度营业收入276.98亿元，同比增长64.56%；归母净利润19.39亿元，同比增长60.18%；扣非净利润16.44亿元，同比增长110.64%。2026年前三季度营业…","time":"2026-10-23 18:52","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"东方财富：前三季度归母净利润119.07亿元，同比增长30.89%","link":"https://wallstreetcn.com/livenews/3184672","summary":"东方财富公告，2026年前三季度营业收入155.6亿元，同比增长34.26%；归母净利润119.07亿元，同比增长30.89%；扣非净利润114.63亿元，同比增长31.98%。第三季度单季营业收入5…","time":"2026-10-23 18:44","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"OpenAI says it will no longer train its AI models on the live internet, citing “significant risks”","link":"https://techcrunch.com/2026/10/23/openai-says-it-will-no-longer-train-its-ai-models-on-the-live-internet-citing-significant-risks/","summary":"OpenAI will cut frontier models off from the internet weeks after one of its engineers said that sol…","time":"2026-10-24 07:05","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"OpenAI now trains its frontier AI models with no internet access","link":"https://www.theverge.com/ai-artificial-intelligence/1018021/openai-training-top-ai-models-no-internet","summary":"OpenAI is now training its most advanced AI models without internet access following a string of rog…","time":"2026-10-24 05:11","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"Musk's SpaceX is still restricting Starlink in Ukraine and the toll is rising","link":"https://www.cnbc.com/2026/10/23/ukraine-says-starlink-restrictions-remain-despite-trump-assurances.html","summary":"Since last week, Ukraine has reported restrictions on Starshield, a version of SpaceX's Starlink, ha…","time":"2026-10-24 03:50","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Silicon Valley Democrats demand investigation into Starlink restrictions in Ukraine","link":"https://www.cnbc.com/2026/10/23/starlink-ukraine-musk-trump-congress.html","summary":"A letter demanding an investigation indicates Democrats will make investigating Starlink's interrupt…","time":"2026-10-23 23:33","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"百度世界2026前瞻：10+重磅分论坛，全面解码AI时代的智能组织进化路径","link":"https://www.qbitai.com/2026/10/504901.html","summary":"10月21日，百度官方公众号发文披露了百度世界2026分论坛的更多议程信息。","time":"2026-10-23 15:35","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"Uber rival inDrive eyes 2027 robotaxi tests in Central Asia with Pony AI and Nvidia","link":"https://techcrunch.com/2026/10/22/uber-rival-indrive-eyes-2027-robotaxi-tests-in-central-asia-with-pony-ai-and-nvidia/","summary":"The company plans to begin testing Pony.ai's robotaxis in Kazakhstan's capital in the first half of …","time":"2026-10-23 12:00","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"SK Hynix shares jump over 4% after early losses as chipmaker scraps Solidigm IPO plans","link":"https://www.cnbc.com/2026/10/23/sk-hynix-solidigm-ipo-.html","summary":"SK Hynix shares closed 4% higher after an initial drop in early trading as the chipmaker halted revi…","time":"2026-10-23 14:45","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Oura sues rival Ultrahuman again, threatening its US smart ring comeback","link":"https://techcrunch.com/2026/10/22/oura-sues-rival-ultrahuman-again-threatening-its-u-s-smart-ring-comeback/","summary":"Oura alleges in its newest lawsuit that Ultrahuman's Ring Pro infringes two of its patents.","time":"2026-10-23 12:22","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"Why This AI Startup Is Taking a Different Path From Wonderful","link":"https://technode.com/2026/10/23/why-this-ai-startup-is-taking-a-different-path-from-wonderful/","summary":"Editor’s note: This article was written by Lucia, a TechNode reporter. For businesses adopting AI, t…","time":"2026-10-23 12:26","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"OpenAI：在加强安全措施且断开互联网连接的情况下，恢复了前沿AI训练","link":"https://wallstreetcn.com/livenews/3184997","summary":"由Sam Altman领导的OpenAI表示，在加强安全管控并禁止前沿模型训练访问互联网后，该公司已恢复强化学习训练及其最先进人工智能（AI）解决方案的内部使用。 随着人工智能代理的能力日益增强，人们…","time":"2026-10-24 03:13","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"TDS REVIEW｜OPPO Enco X4 降噪真无线耳机体验","link":"https://sspai.com/post/116398","summary":"放在欧加体系里，Enco X4 显然是值得买的：它在千元档有着第一档的降噪综合能力且没有明显短板，有着手机厂产品里不错的素质和相对饱满、流行化但不过分两头翘的调音，同时操作和细节体验没有明显问题……查…","time":"2026-10-23 15:00","source":"少数派","category":"数字生活","lang":"zh","color":"#06b6d4"},{"title":"The Race to Reinvent the Everyday Ride","link":"https://technode.com/2026/10/23/the-race-to-reinvent-the-everyday-ride/","summary":"Editor&#8217;s note: A 2026 QYResearch report ranks LEQI&#8217;s Megawheels brand fourth among manuf…","time":"2026-10-23 12:24","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"A Sabotaged Model Run, a Fired Intern, and a $30 Million Second Act","link":"https://www.tmtpost.com/8180275.html","summary":"In 2024, a ByteDance video-model team lost months to failures that looked like physics breaking. Eng…","time":"2026-10-24 10:53","source":"钛媒体","category":"科技产业","lang":"zh","color":"#10b981"},{"title":"黄仁勋：没有哪个国家在制造业方面比中国更强","link":"https://wallstreetcn.com/livenews/3185077","summary":"10月22日，英伟达CEO黄仁勋在德国柏林举办的英伟达GPU技术大会期间表示，到2029年内存供应过剩的可能性不大，“内存的一个真正好处是，你总是可以用得更多”。当被问及是否考虑与中国长鑫存储合作时，…","time":"2026-10-24 07:53","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"早报｜微信初步适配iPhone Duo，仍不能平板登录/全球PC出货下降21%/何刚出任华为董事","link":"https://www.ifanr.com/1685660?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"· 黄仁勋：对长鑫合作持开放态度，不认为 2029 年内存会过剩 · 沃尔沃汽车拟全球裁减约 2500 个岗位 · 华为 Pura90 Plus 开启预订#欢迎关注爱范儿官方微信公众号：爱范儿（微信号…","time":"2026-10-24 08:26","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"Startups don’t need to go viral to win customers","link":"https://techcrunch.com/2026/10/23/startups-dont-need-to-go-viral-to-win-customers/","summary":"At TechCrunch Disrupt last week, two founders and a VC discussed how to not just gain an early follo…","time":"2026-10-24 07:07","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"}],"generated_at":"2026-10-24 16:29"};</script>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
