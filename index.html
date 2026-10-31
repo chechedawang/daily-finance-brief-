@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端视口：让网页在手机上以合适的宽度显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- iOS Safari 全屏模式支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>每日财经快报</title>
+
+    <!-- 内联 SVG 图标（📰），避免额外的 favicon 请求 -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OwPC90ZXh0Pjwvc3ZnPg==">
+
+    <!-- 相对路径：站点可部署在任意子路径下 -->
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <!-- ======== 顶部导航栏 ======== -->
+    <header class="header">
+        <div class="header-inner">
+            <div>
+                <div class="header-title">
+                    <span class="icon">📰</span>每日财经快报
+                </div>
+                <div class="header-date" id="headerDate"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======== 主内容区 ======== -->
+    <main class="main">
+
+        <!-- 状态栏（数据就绪后由 JS 显示） -->
+        <div class="stats-bar" id="statsBar" hidden>
+            <span>📊 共 <span class="count" id="newsCount">0</span> 条新闻</span>
+            <span class="stats-dot" id="statsDot"></span>
+            <span id="statsText" style="font-size:12px;"></span>
+        </div>
+
+        <!-- 搜索 + 筛选（数据就绪后由 JS 显示） -->
+        <div class="toolbar" id="toolbar" hidden>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="search" id="searchInput" placeholder="搜索标题、来源、内容…" oninput="renderNews()">
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <!-- JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 新闻列表容器 -->
+        <div class="news-list" id="newsList"></div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            每日财经快报 · 数据来自公开 RSS 源 · 每日 12:00 自动更新<br>
+            <span id="updatedAt"></span>
+        </div>
+    </main>
+
+    <!-- 构建时由 build.py 在此注入新闻数据（window.__NEWS_DATA__） -->
+    <script>window.__NEWS_DATA__={"version":"3.0.0","date":"2026年10月31日 Saturday","total":20,"sources":[{"name":"量子位","count":10,"error":null},{"name":"CNBC Tech","count":15,"error":null},{"name":"少数派","count":10,"error":null},{"name":"华尔街见闻","count":20,"error":null},{"name":"动点科技","count":15,"error":null},{"name":"The Verge","count":10,"error":null},{"name":"爱范儿","count":15,"error":null},{"name":"钛媒体","count":15,"error":null},{"name":"TechCrunch","count":15,"error":null}],"articles":[{"title":"AI inference chip startup Nano-core Chip raises over RMB 1 billion in Series C2 funding","link":"https://technode.com/2026/10/30/ai-inference-chip-startup-nano-core-chip-raises-over-rmb-1-billion-in-series-c2-funding/","summary":"Hangzhou-based AI inference chip developer Nano-core Chip has raised more than RMB 1 billion in Seri…","time":"2026-10-30 13:46","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"价值判断：涨停板的投资机会和风险提示（10月30日）｜上市公司观察","link":"https://www.tmtpost.com/8188354.html","summary":"本期四只标的分处估值两端：三只首板收盘价低于济安定价五成至一倍多，分别来自食品、家用医疗器械与连锁酒店；一只两连板高出八成三，来自射频线缆与卫星通信终端。","time":"2026-10-31 11:07","source":"钛媒体","category":"科技产业","lang":"zh","color":"#10b981"},{"title":"价值判断：跌停板的投资机会和风险提示（10月30日）｜上市公司观察","link":"https://www.tmtpost.com/8188342.html","summary":"本期六只标的分为两头：三只首次跌停、收盘仍高于济安定价，溢价从六成七到一倍四；三只连续两日跌停、收盘低于济安定价三成三到六成八，分属网络安全、电子制造与汽车零部件。","time":"2026-10-31 11:03","source":"钛媒体","category":"科技产业","lang":"zh","color":"#10b981"},{"title":"Intel’s stock crashes, knocking $12B from government’s stake","link":"https://techcrunch.com/2026/10/30/intels-stock-crashes-knocking-12b-from-governments-stake/","summary":"Intel is being hurt by PC sales as the AI industry gobbles memory and other components causing PC pr…","time":"2026-10-31 05:54","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"Google&#8217;s satellite AI server transmits its first response to Earth","link":"https://www.theverge.com/tech/1023528/google-project-suncatcher-ai-satellite-transmission","summary":"Google's AI chip-equipped satellite has generated its first response from space. In a blog post on F…","time":"2026-10-31 02:21","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"Intel stock has worst day since 1970s, wiping about $12 billion off government's stake","link":"https://www.cnbc.com/2026/10/30/amazon-intel-earnings-big-tech-ai-spending-concerns.html","summary":"Investors are nervous about the massive AI spending from the tech giants and whether that will pay o…","time":"2026-10-31 04:30","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Google’s first data center satellite is online and writing poetry","link":"https://techcrunch.com/2026/10/30/googles-first-data-center-satellite-is-online-and-writing-poetry/","summary":"The first TPU in space is running a Google DeepMind Gemma 4 model and writing cheesy poetry.","time":"2026-10-31 01:00","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"Binance hack: Investigators in a 'cat and mouse game' to recover $6.3 billion in stolen funds","link":"https://www.cnbc.com/2026/10/30/binance-hack-stolen-crypto-recovery.html","summary":"More than $6 billion in crypto was stolen from Binance, setting off a race to recover the funds befo…","time":"2026-10-31 03:27","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"百度 APP 发布四大 AI 升级，搜索已实现递归自我进化","link":"https://www.qbitai.com/2026/10/506771.html","summary":"","time":"2026-10-30 16:50","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"Former Xiaomi executive launches smart ring and AI-powered sleep system","link":"https://technode.com/2026/10/30/former-xiaomi-executive-launches-smart-ring-and-ai-powered-sleep-system/","summary":"ISHO, the sleep technology startup founded by former Xiaomi executive Wang Teng, unveiled its first …","time":"2026-10-30 13:46","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"好莱坞最缺的答案，被这家 10 亿美元估值的 AI 影视独角兽写进了片单","link":"https://www.qbitai.com/2026/10/506747.html","summary":"创立 4 年，估值站上 10 亿美元——资本市场定价的不是一部电影，而是一套内容生产基础设施。","time":"2026-10-30 16:12","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"Foxconn hopes to own 50% of the global AI server market within a couple years","link":"https://www.cnbc.com/2026/10/30/hon-hai-technology-group-foxconn-ai-server-young-liu-.html","summary":"Foxconn's chairman told CNBC that AI demand remains strong as the company eyes U.S. expansion and a …","time":"2026-10-30 15:43","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"英伟达团队基于 MiniMax H3 开源视频增强方案，最高支持 4K 重生成","link":"https://www.qbitai.com/2026/10/506743.html","summary":"英伟达与麻省理工学院团队，在 Hugging Face 发布了视频增强项目 Open-H3-Regenerate-2K 的模型权重","time":"2026-10-30 15:31","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"苹果官宣：Apple智能接入阿里千问，11月4日开放测试","link":"https://wallstreetcn.com/livenews/3191850","summary":"10月31日，苹果和阿里巴巴宣布达成合作，将千问集成至Apple智能，中国用户可以在Siri、写作工具及视觉智能中，直接调用千问的文本与图像理解、内容生成等能力。这些功能将于11月4日起随最新的iOS…","time":"2026-10-31 07:55","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"招商银行：第三季度净利润400.31亿元，同比增长3.06%；前三季度净利润11","link":"https://wallstreetcn.com/livenews/3191444","summary":"招商银行：第三季度净利润400.31亿元，同比增长3.06%；前三季度净利润1164.76亿元，同比增长2.38%。","time":"2026-10-30 17:56","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"早报｜iPhone国行AI官宣！千问接入Siri/DeepSeek千亿融资曝光/于东来建议支持「消费入座」","link":"https://www.ifanr.com/1686979?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"· 特斯拉推出 5 年零息方案，Model 3 / Y 首付 3.99 万元起 · 开发者在 Surface Duo 2 上启动 iOS 27 iPhone Duo 版本 · 米哈游《星布谷地》定档 …","time":"2026-10-31 08:14","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"The biggest names in AI are backing a new way to opt out of scraping","link":"https://www.theverge.com/tech/1023763/openai-google-microsoft-ai-scraping-standard-opt-out","summary":"OpenAI, Google, Microsoft, and Anthropic say they will adopt a new standard that publishers can use …","time":"2026-10-31 04:26","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"「史上最强」的 iPad mini，为什么还是 60Hz 屏幕？","link":"https://www.ifanr.com/1686901?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"刀法、刀法，还是刀法#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-10-30 18:00","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"Kai-Fu Lee’s 01.AI secures Hangzhou state investment worth hundreds of millions of RMB","link":"https://technode.com/2026/10/30/kai-fu-lees-01-ai-secures-hangzhou-state-investment-worth-hundreds-of-millions-of-rmb/","summary":"01.AI, the artificial intelligence company founded by Kai-Fu Lee, has secured investment totaling hu…","time":"2026-10-30 13:46","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"Noetix’s RMB9,998 Humanoid Is Just the Start","link":"https://technode.com/2026/10/30/noetix-rmb9998-humanoid-just-the-start/","summary":"Editor’s note: This article is republished from Jumpstart, a TechNode Group publication. For RMB9,99…","time":"2026-10-30 17:00","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"}],"generated_at":"2026-10-31 18:02"};</script>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
