@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端视口：让网页在手机上以合适的宽度显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- iOS Safari 全屏模式支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>每日财经快报</title>
+
+    <!-- 内联 SVG 图标（📰），避免额外的 favicon 请求 -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OwPC90ZXh0Pjwvc3ZnPg==">
+
+    <!-- 相对路径：站点可部署在任意子路径下 -->
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <!-- ======== 顶部导航栏 ======== -->
+    <header class="header">
+        <div class="header-inner">
+            <div>
+                <div class="header-title">
+                    <span class="icon">📰</span>每日财经快报
+                </div>
+                <div class="header-date" id="headerDate"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======== 主内容区 ======== -->
+    <main class="main">
+
+        <!-- 状态栏（数据就绪后由 JS 显示） -->
+        <div class="stats-bar" id="statsBar" hidden>
+            <span>📊 共 <span class="count" id="newsCount">0</span> 条新闻</span>
+            <span class="stats-dot" id="statsDot"></span>
+            <span id="statsText" style="font-size:12px;"></span>
+        </div>
+
+        <!-- 搜索 + 筛选（数据就绪后由 JS 显示） -->
+        <div class="toolbar" id="toolbar" hidden>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="search" id="searchInput" placeholder="搜索标题、来源、内容…" oninput="renderNews()">
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <!-- JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 新闻列表容器 -->
+        <div class="news-list" id="newsList"></div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            每日财经快报 · 数据来自公开 RSS 源 · 每日 12:00 自动更新<br>
+            <span id="updatedAt"></span>
+        </div>
+    </main>
+
+    <!-- 构建时由 build.py 在此注入新闻数据（window.__NEWS_DATA__） -->
+    <script>window.__NEWS_DATA__={"version":"3.0.0","date":"2026年11月21日 Saturday","total":20,"sources":[{"name":"The Verge","count":10,"error":null},{"name":"量子位","count":10,"error":null},{"name":"CNBC Tech","count":15,"error":null},{"name":"少数派","count":10,"error":null},{"name":"华尔街见闻","count":20,"error":null},{"name":"动点科技","count":15,"error":null},{"name":"爱范儿","count":15,"error":null},{"name":"钛媒体","count":15,"error":null},{"name":"TechCrunch","count":15,"error":null}],"articles":[{"title":"Tech wreck drags Anthropic into the red on its second day of trading","link":"https://www.cnbc.com/2026/11/20/tech-wreck-drags-anthropic-into-the-red-on-its-second-day-of-trading.html","summary":"Nasdaq futures trade lower after steep declines extend across global tech stocks","time":"2026-11-20 19:26","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Trump threatens ‘tremendous tax’ for moving AI data centers outside the US","link":"https://www.theverge.com/policy/1038892/trump-foreign-data-centers-tax","summary":"President Donald Trump promised to put a \"tremendous tax\" on companies that build data centers outsi…","time":"2026-11-21 02:50","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"Anthropic falls nearly 9% in first full day of trading as tech stocks get shellacked","link":"https://www.cnbc.com/2026/11/20/anthropic-stock-ai-amd-nvidia.html","summary":"Anthropic opened at $111.50 per share on Thursday, but closed at $97.17, which was 17% above the $83…","time":"2026-11-21 05:27","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Trump vows to stop U.S. companies from building data centers abroad, threatens 'tremendous tax'","link":"https://www.cnbc.com/2026/11/20/trump-data-centers-ai-companies-tax.html","summary":"Trump spoke at the White House after meeting with Chinese President Xi Jinping and Russian President…","time":"2026-11-21 04:47","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"首款鸿蒙 AI 手机发布：华为全新子品牌 OSTA 星芒有一个「增援未来计划」","link":"https://www.ifanr.com/1690642?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"在手机里打开了一个关于 AI 的「平行宇宙」#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-20 17:17","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"昇腾算力训出了双榜SOTA的具身世界模型，华为云这次想把整套底座开放出来","link":"https://www.qbitai.com/2026/11/511610.html","summary":"国产算力的成熟，把具身竞争维度从「芯片有多强」，拉入了一个比拼训练效率、数据规模、部署成本和场景落地速度的多维战场。","time":"2026-11-20 16:04","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"腾讯WorkBuddy上线电脑操控能力","link":"https://wallstreetcn.com/livenews/3203332","summary":"11月20日，腾讯WorkBuddy宣布上线电脑操控（Computer Use）能力：能识别当前页面，看懂客户端界面，进行点击、输入、滚动等操作，不需要目标软件开放接口，就能在后台操作。电脑操控目前处…","time":"2026-11-20 19:08","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"理想造了一颗登上台积电讲台的芯片，却希望你在开车时彻底忘掉它","link":"https://www.ifanr.com/1690596?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"最好的智驾芯片，是让你彻底忘掉它。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-20 18:39","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"软银孙正义曾探讨以1万亿美元收购SK海力士","link":"https://wallstreetcn.com/livenews/3203635","summary":"软银董事长孙正义近期接洽华尔街机构，商议融资推进一笔规模达万亿级美元的收购，目标是存储芯片巨头SK海力士，但软银发言人表示，孙正义现已不再积极推进该交易。（The Information）","time":"2026-11-21 10:35","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"给万卡国产芯装个“超级外挂”！清华团队要造最强国产Token工厂","link":"https://www.qbitai.com/2026/11/511679.html","summary":"联合华为昇腾，五年冲刺十万卡","time":"2026-11-20 16:59","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"文远知行第三季度营收3.215亿元人民币，同比增长88.0%","link":"https://wallstreetcn.com/livenews/3203358","summary":"文远知行第三季度营收3.215亿元人民币，同比增长88.0%，环比增长38.8%，预估2.688亿元人民币。 第三季度净亏损3.100亿元人民币，预估亏损3.997亿元人民币。 第三季度毛利率达到43…","time":"2026-11-20 19:40","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"李强同澳大利亚总理阿尔巴尼斯举行第十一轮中澳总理年度会晤","link":"https://wallstreetcn.com/livenews/3203351","summary":"11月20日下午，国务院总理李强在北京钓鱼台国宾馆同澳大利亚总理阿尔巴尼斯举行第十一轮中澳总理年度会晤。","time":"2026-11-20 19:28","source":"华尔街见闻","category":"财经快讯","lang":"zh","color":"#dc2626"},{"title":"The US national cyber director is stepping down","link":"https://techcrunch.com/2026/11/20/the-u-s-national-cyber-director-is-stepping-down/","summary":"The news comes as businesses across the country report a flurry of technical outages, the causes of …","time":"2026-11-20 17:14","source":"TechCrunch","category":"全球科技","lang":"en","color":"#3b82f6"},{"title":"美股一夜崩盘，AI 泡沫真要破了？","link":"https://www.ifanr.com/1690789?utm_source=rss&utm_medium=rss&utm_campaign=","summary":"AI 泡沫要破了吗#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-21 11:30","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"Nvidia stock plunges 14%, wraps up longest weekly losing streak since 2008 financial crisis","link":"https://www.cnbc.com/2026/11/20/nvidias-7-week-losing-streak-is-longest-since-2008-financial-crisis.html","summary":"Once the most valuable company in the world, Nvidia now ranks fourth behind Apple, Microsoft and Alp…","time":"2026-11-21 06:59","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"本周看什么 | 最近值得一看的 10 部作品","link":"https://sspai.com/post/119337","summary":"📅本周新预告《克里夫·布斯的惊险再冒险》终极预告11月18日，《好莱坞往事》续集电影《克里夫·布斯的惊险再冒险》发布了终极预告，将于11月25日在北美上映，12月23日上线Netflix。大卫·芬奇执…","time":"2026-11-20 17:54","source":"少数派","category":"数字生活","lang":"zh","color":"#06b6d4"},{"title":"‘More than just a game’: How GTA VI’s blockbuster launch fuels a booming content economy","link":"https://www.cnbc.com/2026/11/20/gta-vi-launch-streaming-content-economy.html","summary":"GTA VI’s blockbuster launch is creating a wider economy around livestreams, social clips and high-vo…","time":"2026-11-20 15:08","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"新浪新闻·2026探索大会在京举行 虚实交融共探智能时代共生新图景","link":"https://www.qbitai.com/2026/11/511603.html","summary":"11月19日，由微博与新浪新闻联合主办的“新浪新闻·2026探索大会”在北京举办。","time":"2026-11-20 14:16","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"双系统决策+双层自进化，Agnes让Agent效率最高提速14倍，成本骤降至1/27！","link":"https://www.qbitai.com/2026/11/511582.html","summary":"已开源Agnes Harness","time":"2026-11-20 13:24","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"游戏史最高分，不负 13 年的等待：《GTA 6》游玩体验","link":"https://sspai.com/post/119327","summary":"编注：本文首发于「篝火营地」，原作者多边形。少数派经授权后转载，仅对文章格式略作调整。原标题：《侠盗猎车手6》游戏评测：10分｜篝火。作为RockstarGames时隔13年推出的《侠盗猎车手》系列新…","time":"2026-11-20 15:34","source":"少数派","category":"数字生活","lang":"zh","color":"#06b6d4"}],"generated_at":"2026-11-21 19:53"};</script>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
