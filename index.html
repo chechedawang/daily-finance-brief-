@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端视口：让网页在手机上以合适的宽度显示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- iOS Safari 全屏模式支持 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>每日财经快报</title>
+
+    <!-- 内联 SVG 图标（📰），避免额外的 favicon 请求 -->
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48dGV4dCB5PSIuOWVtIiBmb250LXNpemU9IjkwIj7wn5OwPC90ZXh0Pjwvc3ZnPg==">
+
+    <!-- 相对路径：站点可部署在任意子路径下 -->
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <!-- ======== 顶部导航栏 ======== -->
+    <header class="header">
+        <div class="header-inner">
+            <div>
+                <div class="header-title">
+                    <span class="icon">📰</span>每日财经快报
+                </div>
+                <div class="header-date" id="headerDate"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======== 主内容区 ======== -->
+    <main class="main">
+
+        <!-- 状态栏（数据就绪后由 JS 显示） -->
+        <div class="stats-bar" id="statsBar" hidden>
+            <span>📊 共 <span class="count" id="newsCount">0</span> 条新闻</span>
+            <span class="stats-dot" id="statsDot"></span>
+            <span id="statsText" style="font-size:12px;"></span>
+        </div>
+
+        <!-- 搜索 + 筛选（数据就绪后由 JS 显示） -->
+        <div class="toolbar" id="toolbar" hidden>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="search" id="searchInput" placeholder="搜索标题、来源、内容…" oninput="renderNews()">
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <!-- JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- 新闻列表容器 -->
+        <div class="news-list" id="newsList"></div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            每日财经快报 · 数据来自公开 RSS 源 · 每日 12:00 自动更新<br>
+            <span id="updatedAt"></span>
+        </div>
+    </main>
+
+    <!-- 构建时由 build.py 在此注入新闻数据（window.__NEWS_DATA__） -->
+    <script>window.__NEWS_DATA__={"version":"3.0.0","date":"2026年11月28日 Saturday","total":20,"sources":[{"name":"动点科技","count":15,"error":null},{"name":"量子位","count":10,"error":null},{"name":"少数派","count":10,"error":null},{"name":"爱范儿","count":15,"error":null},{"name":"华尔街见闻","count":0,"error":"HTTPSConnectionPool(host='api-one.wallstcn.com', port=443): Max retries exceeded with url: /apiv1/content/lives?channel=global&limit=20&first_page=true (Caused by NameResolutionError(\"HTTPSConnection(host='api-one.wallstcn.com', port=443): Failed to resolve 'api-one.wallstcn.com' ([Errno -2] Name or service not known)\"))"},{"name":"CNBC Tech","count":15,"error":null},{"name":"The Verge","count":10,"error":null},{"name":"钛媒体","count":15,"error":null},{"name":"TechCrunch","count":15,"error":null}],"articles":[{"title":"The best robot vacuums we’ve tested are up to 60 percent off for Black Friday","link":"https://www.theverge.com/gadgets/1044487/best-black-friday-robot-vacuum-mop-deals-2026","summary":"Black Friday is here, and if you want a little help keeping your floors clean this holiday season, n…","time":"2026-11-28 07:32","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"Many of our favorite Blu-ray movies are over 50 percent off for Black Friday","link":"https://www.theverge.com/gadgets/1040471/4k-bluray-movie-film-black-friday-deal-sale","summary":"No shade to those who love their subscription services, but viewing physical movies is a time-honore…","time":"2026-11-28 07:30","source":"The Verge","category":"科技产业","lang":"en","color":"#ec4899"},{"title":"捷途纵横 R700 发布：华为乾崑智驾配大梁，家用硬派两手抓｜广州车展","link":"https://www.ifanr.com/1695926?utm_source=rss&utm_medium=rss&utm_campaign","summary":"穿西装的方盒子。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 20:13","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"限时 11.99 万元起，日产 NX7 标配宁德时代电池，还有Momenta 智驾｜广州车展","link":"https://www.ifanr.com/1695904?utm_source=rss&utm_medium=rss&utm_campaign","summary":"辅助驾驶上大分。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 20:09","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"The Tech Download: Will Jensen Huang’s return be the spark the shaky AI market needs?","link":"https://www.cnbc.com/2026/11/27/tech-download-jensen-huang-ai-market.html","summary":"AI stocks have fallen in recent times as investors question the sustainability of the AI boom.","time":"2026-11-27 20:00","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"全国首批首家！商汤大装置获Token工厂智算能力最高评级","link":"https://www.qbitai.com/2026/11/513346.html","summary":"商汤大装置Token工厂获得中国信通院Token工厂智算能力评估“全栈服务型·领先级”评级认证","time":"2026-11-27 19:18","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"钛动科技 × 腾讯云达成战略合作，用AI打开企业全球增长新空间","link":"https://www.qbitai.com/2026/11/513194.html","summary":"企业需要有用的 AI","time":"2026-11-27 12:05","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"Chinese chip stocks notch biggest ever one-day gains as Beijing signals broader market support","link":"https://www.cnbc.com/2026/11/27/china-chip-stocks-beijing-market-support.html","summary":"Chinese stocks rebounded sharply after a rare intraday state media readout cheered investors as top …","time":"2026-11-27 18:13","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Claude Opus 5.6 做出了史上最牛的 PPT，直接杀死比赛？","link":"https://www.ifanr.com/1695831?utm_source=rss&utm_medium=rss&utm_campaign","summary":"这可能是我们见过最离谱的 AI 生成 PPT。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 17:06","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"XREAL’s Google bet meets the holiday season","link":"https://technode.com/2026/11/27/xreals-google-bet-meets-the-holiday-season/","summary":"Editor&#8217;s Note: Founded in 2017, XREAL has become a leading consumer AR-glasses maker. iResearc…","time":"2026-11-27 16:31","source":"动点科技","category":"科技出海","lang":"zh","color":"#8b5cf6"},{"title":"刚刚，首个带跨任务空间记忆的原生基模开源！机器人端侧就能跑","link":"https://www.qbitai.com/2026/11/513227.html","summary":"地图能随时修，记忆能跨任务用","time":"2026-11-27 15:01","source":"量子位","category":"AI科技","lang":"zh","color":"#f59e0b"},{"title":"从「中国特供」变全球旗舰，搭载 Momenta 智驾的本田冠道来了｜广州车展","link":"https://www.ifanr.com/1695948?utm_source=rss&utm_medium=rss&utm_campaign","summary":"十年前为中国造大空间，十年后用中国场景定义全球车。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 20:20","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"启源 Q06 迎来大升级！长安发布天枢领航 Ultra 2.0，明年 1 月推车位到车位｜广州车展","link":"https://www.ifanr.com/1695936?utm_source=rss&utm_medium=rss&utm_campaign","summary":"15 万级家用车车主，也在认真用高阶智驾了。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 20:16","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"43.99 万元，只有一个配置，岚图泰山纯电版带来了三腔空悬｜广州车展","link":"https://www.ifanr.com/1695915?utm_source=rss&utm_medium=rss&utm_campaign","summary":"一个配置打天下。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 20:11","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"Tech rally lifts stock futures to wrap up a volatile week of trading","link":"https://www.cnbc.com/2026/11/27/tech-rally-lifts-stock-futures-to-wrap-up-a-volatile-week-of-trading.html","summary":"President Trump demands a probe into the GDP revision data.","time":"2026-11-27 19:55","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"Agent 上车元年，支付宝造了一个行动座舱","link":"https://www.ifanr.com/1695888?utm_source=rss&utm_medium=rss&utm_campaign","summary":"智能座舱的下半场，正在从「对话智能」步入「行动智能」。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 18:01","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"阿维塔 T09 中国首秀，这是一辆可以在四座和六座之间切换的旗舰 SUV丨广州车展","link":"https://www.ifanr.com/1695875?utm_source=rss&utm_medium=rss&utm_campaign","summary":"阿维塔的旗舰 SUV 虽迟但到。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 17:17","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"蔚来三大品牌首次同台亮相广州车展，ES8、乐道 L60 推出全新特别版车型丨广州车展","link":"https://www.ifanr.com/1695848?utm_source=rss&utm_medium=rss&utm_campaign","summary":"萤火虫渡过了最困难的时期。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 16:55","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"},{"title":"AI shopping agents are having a moment, but Amazon and a growing number of sites threaten to stunt their growth","link":"https://www.cnbc.com/2026/11/27/ai-shopping-agents-retailer-blocks.html","summary":"AI shopping agents from OpenAI, Meta, Google and Instinct promise to help users shop, but they're hi…","time":"2026-11-28 00:43","source":"CNBC Tech","category":"全球市场","lang":"en","color":"#6366f1"},{"title":"限时 25.49 万元起！奔驰纯电 GLC「大件夹抵食」","link":"https://www.ifanr.com/1695815?utm_source=rss&utm_medium=rss&utm_campaign","summary":"智能化，不再是新势力的独角戏。#欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上。","time":"2026-11-27 16:49","source":"爱范儿","category":"科技产业","lang":"zh","color":"#ef4444"}],"generated_at":"2026-11-28 20:33"};</script>
+
+    <script src="static/app.js"></script>
+</body>
+</html>
